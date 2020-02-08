@@ -141,6 +141,12 @@ export default {
 	justify-content: center;
 	align-items: center;
 
+	&:hover {
+		* {
+			color: $primary-color-dark;
+		}
+	}
+
 	svg {
 		height: 72px;
 		width: 72px;
