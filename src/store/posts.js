@@ -1,28 +1,35 @@
 import nanoid from 'nanoid'
 import { mockPosts } from '@/store/mock_data'
 
-const local_state = {
+const state = {
 	posts: []
 }
 
-const local_getters = {
+const getters = {
 	posts: state => {
 		return state.posts
+	},
+	post: state => id => {
+		const match = state.posts.filter(p => p.id === id)
+
+		if (match.length === 0) return null
+
+		return match[0]
 	},
 	hasPosts: state => {
 		return state.posts.length > 0
 	}
 }
 
-const local_mutations = {
+const mutations = {
 	posts(state, posts) {
 		state.posts = posts
 	},
 	post(state, post) {
-		const match = state.posts.filter(p => p.id === post.id)
+		const existing_post = getters.post(state)(post.id)
 
-		if (match.length > 0) {
-			const index = state.posts.indexOf(match[0])
+		if (existing_post) {
+			const index = state.posts.indexOf(existing_post)
 
 			state.posts.splice(index, 1)
 		}
@@ -30,18 +37,16 @@ const local_mutations = {
 		state.posts.push(post)
 	},
 	deletePost(state, { id }) {
-		const match = state.posts.filter(p => p.id === id)
+		const post = getters.post(state)(id)
 
-		if (match.length === 0)
-			throw new Error(`Unable to delete post with id: ${id}`)
+		if (!post) throw new Error(`Unable to delete post with id: ${id}`)
 
-		const index = state.posts.indexOf(match[0])
-
+		const index = state.posts.indexOf(post)
 		state.posts.splice(index, 1)
 	}
 }
 
-const local_actions = {
+const actions = {
 	async refreshPosts({ commit, getters }) {
 		if (getters['hasPosts']) return getters['posts']
 
@@ -58,9 +63,9 @@ const local_actions = {
 	async getPost({ dispatch, getters }, { id }) {
 		dispatch('refreshPosts')
 
-		const match = getters['posts'].filter(post => post.id === id)
+		const post = getters['post'](id)
 
-		if (match.length > 0) return match[0]
+		if (post) return post
 
 		return null
 	},
@@ -75,8 +80,8 @@ const local_actions = {
 
 export default {
 	namespaced: true,
-	state: local_state,
-	getters: local_getters,
-	mutations: local_mutations,
-	actions: local_actions
+	state,
+	getters,
+	mutations,
+	actions
 }
