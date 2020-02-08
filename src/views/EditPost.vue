@@ -1,8 +1,21 @@
 <template>
 	<div class="EditPost">
 		<div class="single-line">
-			<button class="btn danger">Delete</button>
-			<button class="btn">Publish</button>
+			<button
+				class="btn danger"
+				:class="{ disabled: post.id === undefined }"
+				@click="deletePost"
+			>
+				Delete
+			</button>
+			<button
+				class="btn primary"
+				:class="{ disabled: post.id === undefined }"
+				@click="togglePublished"
+			>
+				<span v-if="post.status === Post.TYPE_PUBLISHED">Unpublish</span>
+				<span v-else>Publish</span>
+			</button>
 		</div>
 
 		<label>
@@ -22,7 +35,7 @@
 
 		<label>
 			<span>Location</span>
-			<LocationSelector @change="onLocationChange" />
+			<LocationSelector v-model="post.location" @input="save" />
 		</label>
 
 		<ImageSelector />
@@ -37,20 +50,25 @@
 <script>
 import LocationSelector from '@/components/LocationSelector'
 import ImageSelector from '@/components/ImageSelector'
+
+import Post from '@motoblogg/common/models/post'
+
 const SAVE_TIMEOUT_MS = 500
 
 export default {
 	name: 'EditPost',
 	components: { ImageSelector, LocationSelector },
 	data: () => ({
+		Post,
 		saveTimeout: null,
 		post: {
-			status: 'DRAFT',
+			id: undefined,
+			status: Post.TYPE_DRAFT,
 			title: '',
 			date: new Date(Date.now()),
 			distance: 0,
 			content: '',
-			location: 'geo:0,0'
+			location: 'geo:53.252,10.02'
 		}
 	}),
 	computed: {
@@ -92,11 +110,6 @@ export default {
 			this.post.date = date
 			this.save()
 		},
-		onLocationChange(location) {
-			this.post.location = 'geo:' + location.join(',')
-
-			this.save()
-		},
 		save() {
 			if (this.saveTimeout) clearTimeout(this.saveTimeout)
 
@@ -104,12 +117,17 @@ export default {
 				this.post.id = await this.$store.dispatch('posts/savePost', this.post)
 			}, SAVE_TIMEOUT_MS)
 		},
-		deletePost() {
-			const deleteConfirmation = confirm(
-				'Are you sure you want to delete this post?'
-			)
+		togglePublished() {
+			if (this.post.status === Post.TYPE_PUBLISHED)
+				this.post.status = Post.TYPE_UNPUBLISHED
+			else this.post.status = Post.TYPE_PUBLISHED
 
-			if (!deleteConfirmation) return
+			this.save()
+		},
+		deletePost() {
+			const doDelete = confirm('Are you sure you want to delete this post?') //NOSONAR
+
+			if (!doDelete) return
 
 			this.$store.commit('posts/deletePost', { id: this.post.id })
 			this.$router.replace('/posts')
@@ -174,5 +192,9 @@ label {
 	.LocationSelector {
 		width: 100%;
 	}
+}
+
+button {
+	transition: all 0.2s ease;
 }
 </style>
