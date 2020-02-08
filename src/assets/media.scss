@@ -1,0 +1,7 @@
+@import 'src/assets/variables';
+
+@mixin mobile {
+    @media screen and (max-width: $small-screen) {
+        @content
+    }
+}

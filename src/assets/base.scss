@@ -1,0 +1,21 @@
+@import 'src/assets/clickable';
+@import 'src/assets/palette';
+@import 'src/assets/variables';
+
+button.btn {
+  @include clickable;
+
+  background-color: transparent;
+
+  font-weight: bold;
+  font-size: large;
+
+  border: $border-width solid $primary-color;
+
+  &.danger {
+    color: $background-color;
+
+    background-color: $danger;
+    border-color: $danger;
+  }
+}

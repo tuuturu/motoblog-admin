@@ -42,6 +42,7 @@ export default {
 
 <style lang="scss" scoped>
 @import 'src/assets/palette';
+@import 'src/assets/shadow';
 
 .Dropdown {
 	cursor: pointer;
@@ -78,6 +79,8 @@ export default {
 	}
 
 	ul {
+		@include shadow-level-1;
+
 		position: absolute;
 		top: 2.2em;
 
@@ -86,8 +89,6 @@ export default {
 
 		text-align: left;
 		background-color: white;
-
-		box-shadow: 1px 1px 3px #2c3e50;
 
 		li {
 			display: flex;

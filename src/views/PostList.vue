@@ -9,19 +9,29 @@
 		</div>
 
 		<ul>
-			<li v-for="post in filtered_posts" :key="post.id">
+			<li
+				@click="$router.push({ name: 'editpost', params: { id: post.id } })"
+				v-for="post in filtered_posts"
+				:key="post.id"
+			>
 				<span>{{ post.title }}</span>
-				<button>edit</button>
+				<button @click="onMainActionClick">
+					{{ buttonText }}
+				</button>
 			</li>
 		</ul>
 
 		<div class="button-footer">
-			<button class="button-new">New</button>
+			<button class="button-new" @click="$router.push('/posts/edit')">
+				New
+			</button>
 		</div>
 	</div>
 </template>
 
 <script>
+import Post from '@motoblogg/common/models/post'
+
 import Dropdown from '@/components/Dropdown'
 export default {
 	name: 'PostList',
@@ -37,12 +47,35 @@ export default {
 		dropdown_active: true
 	}),
 	computed: {
+		buttonText() {
+			if (this.post_type === Post.TYPE_PUBLISHED) return 'unpublish'
+
+			return 'publish'
+		},
 		filtered_posts() {
 			return this.posts.filter(post => post.status === this.post_type)
 		}
 	},
 	async created() {
 		this.posts = await this.$store.dispatch('posts/getPosts')
+	},
+	methods: {
+		publish(id) {
+			console.log(`publishing ${id}`)
+		},
+		unpublish(id) {
+			console.log(`unpublishing ${id}`)
+		},
+		onMainActionClick(id) {
+			switch (this.post_type) {
+				case Post.TYPE_DRAFT:
+					this.publish(id)
+					break
+				case Post.TYPE_PUBLISHED:
+					this.unpublish(id)
+					break
+			}
+		}
 	}
 }
 </script>
