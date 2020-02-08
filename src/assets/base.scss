@@ -10,12 +10,41 @@ button.btn {
   font-weight: bold;
   font-size: large;
 
-  border: $border-width solid $primary-color;
+  border: $border-width solid black;
+
+  &.primary {
+    border-color: $primary-color;
+
+    &:hover {
+      color: $primary-color-dark;
+      background-color: $primary-color;
+    }
+  }
 
   &.danger {
-    color: $background-color;
-
-    background-color: $danger;
     border-color: $danger;
+
+    &:hover {
+      color: $background-color;
+      background-color: $danger;
+    }
+  }
+
+  &.disabled {
+    color: grey;
+    background-color: lightgrey;
+
+    border: 3px solid grey;
+
+    cursor: not-allowed;
+
+    &:hover {
+      color: grey;
+      background-color: lightgrey;
+
+      border: 3px solid grey;
+
+      cursor: not-allowed;
+    }
   }
 }
