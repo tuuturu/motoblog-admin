@@ -19,22 +19,30 @@ const ATTRIBUTION =
 export default {
 	name: 'LocationSelector',
 	components: { IconCrosshair },
+	props: {
+		value: String
+	},
 	data: () => ({
-		map: null,
-		center: [53.252, 10.02]
+		map: null
 	}),
-	watch: {
-		center(value) {
-			this.$emit('change', value)
+	computed: {
+		coords() {
+			return this.value.split(':')[1].split(',')
 		}
 	},
 	async mounted() {
 		this.map = L.map('mapContainer', { zoomControl: false })
 
 		L.tileLayer(TILE_URL, { attribution: ATTRIBUTION }).addTo(this.map)
-		this.map.setView(this.center, 6)
+		this.map.setView(this.coords, 6)
 
-		this.map.on('moveend', this.updateCenter)
+		this.map.on('moveend', () => {
+			const center = this.map.getCenter()
+
+			const geo_uri = `geo:${center.lat},${center.lng}`
+
+			this.$emit('input', geo_uri)
+		})
 
 		this.getLocation().then(
 			location => {
@@ -47,11 +55,6 @@ export default {
 		)
 	},
 	methods: {
-		updateCenter() {
-			const center = this.map.getCenter()
-
-			this.center = [center.lat, center.lng]
-		},
 		getLocation() {
 			return new Promise((resolve, reject) => {
 				if (!navigator.geolocation) reject()
