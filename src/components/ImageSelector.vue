@@ -83,9 +83,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'src/assets/palette';
-@import 'src/assets/media';
-@import 'src/assets/shadow';
+@import '~@tuuturu/styling/dist/style';
+@import '~@/assets/media';
+@import '~@/assets/palette';
 
 .ImageSelector {
 	text-align: left;

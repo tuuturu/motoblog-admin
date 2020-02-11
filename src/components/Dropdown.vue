@@ -41,8 +41,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'src/assets/palette';
-@import 'src/assets/shadow';
+@import '~@tuuturu/styling/dist/style';
+@import '~@/assets/palette';
 
 .Dropdown {
 	cursor: pointer;

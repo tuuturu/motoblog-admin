@@ -48,10 +48,10 @@
 </template>
 
 <script>
+import Post from '@tuuturu/motoblog-common/models/post'
+
 import LocationSelector from '@/components/LocationSelector'
 import ImageSelector from '@/components/ImageSelector'
-
-import Post from '@motoblogg/common/models/post'
 
 const SAVE_TIMEOUT_MS = 500
 
@@ -137,9 +137,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'src/assets/base';
-@import 'src/assets/clickable';
-@import 'src/assets/palette';
+@import '~@tuuturu/styling/dist/style';
+@import '~@/assets/palette';
 
 .EditPost {
 	padding: 1em;

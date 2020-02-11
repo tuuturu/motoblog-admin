@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import Post from '@motoblogg/common/models/post'
+import Post from '@tuuturu/motoblog-common/models/post'
 
 import Dropdown from '@/components/Dropdown'
 export default {
@@ -81,8 +81,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'src/assets/palette';
-@import 'src/assets/clickable';
+@import '~@tuuturu/styling/dist/style';
+@import '~@/assets/palette';
 
 .PostList {
 	display: flex;
