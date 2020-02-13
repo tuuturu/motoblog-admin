@@ -1,6 +1,8 @@
 import nanoid from 'nanoid'
 import { mockPosts } from '@/store/mock_data'
 
+import { models } from '@tuuturu/motoblog-common'
+
 const state = {
 	posts: []
 }
@@ -52,8 +54,9 @@ const actions = {
 
 		// TODO: actual fetching here
 		// const { data } = axios.request({})
+		const data = mockPosts.map(post => new models.Post(post))
 
-		commit('posts', mockPosts)
+		commit('posts', data)
 	},
 	async getPosts({ dispatch, getters }) {
 		dispatch('refreshPosts')

@@ -13,7 +13,7 @@
 				:class="{ disabled: post.id === undefined }"
 				@click="togglePublished"
 			>
-				<span v-if="post.status === Post.TYPE_PUBLISHED">Unpublish</span>
+				<span v-if="post.status === PostType.PUBLISHED">Unpublish</span>
 				<span v-else>Publish</span>
 			</button>
 		</div>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import Post from '@tuuturu/motoblog-common/models/post'
+import { models } from '@tuuturu/motoblog-common'
 
 import LocationSelector from '@/components/LocationSelector'
 import ImageSelector from '@/components/ImageSelector'
@@ -59,17 +59,17 @@ export default {
 	name: 'EditPost',
 	components: { ImageSelector, LocationSelector },
 	data: () => ({
-		Post,
+		PostType: models.PostType,
 		saveTimeout: null,
-		post: {
+		post: new models.Post({
 			id: undefined,
-			status: Post.TYPE_DRAFT,
+			status: models.PostType.DRAFT,
 			title: '',
 			date: new Date(Date.now()),
 			distance: 0,
 			content: '',
 			location: 'geo:53.252,10.02'
-		}
+		})
 	}),
 	computed: {
 		date() {
@@ -114,13 +114,16 @@ export default {
 			if (this.saveTimeout) clearTimeout(this.saveTimeout)
 
 			this.saveTimeout = setTimeout(async () => {
-				this.post.id = await this.$store.dispatch('posts/savePost', this.post)
+				this.post.id = await this.$store.dispatch(
+					'posts/savePost',
+					new models.Post(this.post)
+				)
 			}, SAVE_TIMEOUT_MS)
 		},
 		togglePublished() {
-			if (this.post.status === Post.TYPE_PUBLISHED)
-				this.post.status = Post.TYPE_UNPUBLISHED
-			else this.post.status = Post.TYPE_PUBLISHED
+			if (this.post.status === models.PostType.PUBLISHED)
+				this.post.status = models.PostType.UNPUBLISHED
+			else this.post.status = models.PostType.PUBLISHED
 
 			this.save()
 		},
