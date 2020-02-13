@@ -70,7 +70,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '~leaflet/dist/leaflet.css';
-@import 'src/assets/palette';
+@import '~@/assets/palette';
 
 .LocationSelector {
 	text-align: left;

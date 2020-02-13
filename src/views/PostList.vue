@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import Post from '@motoblogg/common/models/post'
+import { models } from '@tuuturu/motoblog-common'
 
 import Dropdown from '@/components/Dropdown'
 export default {
@@ -39,16 +39,16 @@ export default {
 	data: () => ({
 		posts: [],
 		POST_TYPE_CHOICES: [
-			{ name: 'drafts', value: 'DRAFT' },
-			{ name: 'published', value: 'PUBLISHED' },
-			{ name: 'unpublished', value: 'UNPUBLISHED' }
+			{ name: 'drafts', value: models.PostType.DRAFT },
+			{ name: 'published', value: models.PostType.PUBLISHED },
+			{ name: 'unpublished', value: models.PostType.UNPUBLISHED }
 		],
-		post_type: 'DRAFT',
+		post_type: models.PostType.DRAFT,
 		dropdown_active: true
 	}),
 	computed: {
 		buttonText() {
-			if (this.post_type === Post.TYPE_PUBLISHED) return 'unpublish'
+			if (this.post_type === models.PostType.PUBLISHED) return 'unpublish'
 
 			return 'publish'
 		},
@@ -68,10 +68,10 @@ export default {
 		},
 		onMainActionClick(id) {
 			switch (this.post_type) {
-				case Post.TYPE_DRAFT:
+				case models.PostType.DRAFT:
 					this.publish(id)
 					break
-				case Post.TYPE_PUBLISHED:
+				case models.PostType.PUBLISHED:
 					this.unpublish(id)
 					break
 			}
@@ -81,8 +81,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'src/assets/palette';
-@import 'src/assets/clickable';
+@import '~@tuuturu/styling/dist/style';
+@import '~@/assets/palette';
 
 .PostList {
 	display: flex;
