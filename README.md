@@ -92,7 +92,7 @@ make build
 ```
 3. Configure the project
 ```shell script
-make configure && mv .npmrc.new .npmrc
+make configure && mv .npmrc{.new,}
 ```
 4. Add your Github developer token to the .npmrc file
 
