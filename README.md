@@ -90,6 +90,11 @@ git clone https://github.com/tuuturu/motoblog-admin.git
 ```sh
 make build
 ```
+3. Configure the project
+```shell script
+make configure && mv .npmrc.new .npmrc
+```
+4. Add your Github developer token to the .npmrc file
 
 
 
