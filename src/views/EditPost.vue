@@ -1,25 +1,22 @@
 <template>
 	<div class="EditPost">
 		<div class="single-line">
-			<button
-				class="btn danger"
-				:class="{ disabled: post.id === undefined }"
-				@click="deletePost"
-			>
+			<BaseButton @click="deletePost" danger :class="{ disabled: !post.id }">
 				Delete
-			</button>
-			<button
-				class="btn primary"
-				:class="{ disabled: post.id === undefined }"
+			</BaseButton>
+			<BaseButton
 				@click="togglePublished"
+				primary
+				:class="{ disabled: !post.id }"
 			>
 				<span v-if="post.status === PostType.PUBLISHED">Unpublish</span>
 				<span v-else>Publish</span>
-			</button>
+			</BaseButton>
 		</div>
 
 		<label>
 			<span>Title</span>
+			<TextInput v-model="post.title" @input="save()" />
 			<input v-model="post.title" type="text" @input="save" />
 		</label>
 		<div class="single-line">
@@ -49,6 +46,8 @@
 
 <script>
 import { models } from '@tuuturu/motoblog-common'
+import { BaseButton } from '@tuuturu/vue/buttons'
+import { TextInput } from '@tuuturu/vue/forms'
 
 import LocationSelector from '@/components/LocationSelector'
 import ImageSelector from '@/components/ImageSelector'
@@ -57,7 +56,12 @@ const SAVE_TIMEOUT_MS = 500
 
 export default {
 	name: 'EditPost',
-	components: { ImageSelector, LocationSelector },
+	components: {
+		ImageSelector,
+		LocationSelector,
+		BaseButton,
+		TextInput
+	},
 	data: () => ({
 		PostType: models.PostType,
 		saveTimeout: null,

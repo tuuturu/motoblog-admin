@@ -8,9 +8,9 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@tuuturu/motoblog-common": "0.0.16",
-    "@tuuturu/styling": "0.0.15",
-    "@tuuturu/vue": "0.0.1",
+    "@tuuturu/motoblog-common": "^0.0.16",
+    "@tuuturu/styling": "^0.0.15",
+    "@tuuturu/vue": "^0.0.3",
     "core-js": "^3.4.4",
     "leaflet": "^1.6.0",
     "nanoid": "^2.1.11",
