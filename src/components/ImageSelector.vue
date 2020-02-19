@@ -83,7 +83,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@tuuturu/styling/dist/style';
+@import '~@tuuturu/styling/style';
 @import '~@/assets/media';
 @import '~@/assets/palette';
 
