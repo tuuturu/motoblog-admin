@@ -15,7 +15,7 @@
 				:key="post.id"
 			>
 				<span>{{ post.title }}</span>
-				<button @click="onMainActionClick">
+				<button @click.stop="onMainActionClick(post)">
 					{{ buttonText }}
 				</button>
 			</li>
@@ -60,21 +60,18 @@ export default {
 		this.posts = await this.$store.dispatch('posts/getPosts')
 	},
 	methods: {
-		publish(id) {
-			console.log(`publishing ${id}`)
-		},
-		unpublish(id) {
-			console.log(`unpublishing ${id}`)
-		},
-		onMainActionClick(id) {
+		onMainActionClick(post) {
 			switch (this.post_type) {
-				case models.PostType.DRAFT:
-					this.publish(id)
-					break
 				case models.PostType.PUBLISHED:
-					this.unpublish(id)
+					post.status = models.PostType.UNPUBLISHED
+					break
+				case models.PostType.DRAFT:
+				case models.PostType.UNPUBLISHED:
+					post.status = models.PostType.PUBLISHED
 					break
 			}
+
+			this.$store.dispatch('posts/savePost', post)
 		}
 	}
 }
@@ -117,11 +114,6 @@ li:hover {
 	span {
 		margin-top: 0.2em;
 		border-bottom: 3px solid $primary-color;
-	}
-
-	button {
-		cursor: pointer;
-		border: 3px solid $primary-color-dark;
 	}
 }
 
