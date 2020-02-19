@@ -44,15 +44,15 @@ export default {
 			this.$emit('input', geo_uri)
 		})
 
-		this.getLocation().then(
-			location => {
-				this.map.setView(location, 14)
-			},
-			error => {
-				console.log('error happened')
-				console.log(error)
+		try {
+			const location = await this.getLocation()
+
+			this.map.setView(location, 14)
+		} catch (error) {
+			if (error.code === 1) {
+				// user denied geo location request
 			}
-		)
+		}
 	},
 	methods: {
 		getLocation() {
