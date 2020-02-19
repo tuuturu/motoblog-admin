@@ -1,14 +1,10 @@
 <template>
 	<div class="EditPost">
 		<div class="single-line">
-			<BaseButton @click="deletePost" danger :class="{ disabled: !post.id }">
+			<BaseButton @click="deletePost" danger :disabled="!post.id">
 				Delete
 			</BaseButton>
-			<BaseButton
-				@click="togglePublished"
-				primary
-				:class="{ disabled: !post.id }"
-			>
+			<BaseButton @click="togglePublished" primary :disabled="!post.id">
 				<span v-if="post.status === PostType.PUBLISHED">Unpublish</span>
 				<span v-else>Publish</span>
 			</BaseButton>
@@ -16,17 +12,16 @@
 
 		<label>
 			<span>Title</span>
-			<TextInput v-model="post.title" @input="save()" />
-			<input v-model="post.title" type="text" @input="save" />
+			<TextInput v-model="post.title" @input="save" />
 		</label>
 		<div class="single-line">
 			<label>
 				<span>Date</span>
-				<input :value="date" @input="setDate" type="date" />
+				<DateInput v-model="post.date" @input="save" />
 			</label>
 			<label>
 				<span>Distance (km)</span>
-				<input v-model="post.distance" type="number" @input="save" />
+				<NumberInput v-model="post.distance" @input="save" />
 			</label>
 		</div>
 
@@ -39,7 +34,7 @@
 
 		<label>
 			<span>Content</span>
-			<textarea ref="txtContent" v-model="post.content" @input="save" />
+			<TextareaInput ref="txtContent" v-model="post.content" @input="save" />
 		</label>
 	</div>
 </template>
@@ -47,7 +42,12 @@
 <script>
 import { models } from '@tuuturu/motoblog-common'
 import { BaseButton } from '@tuuturu/vue/buttons'
-import { TextInput } from '@tuuturu/vue/forms'
+import {
+	TextInput,
+	DateInput,
+	NumberInput,
+	TextareaInput
+} from '@tuuturu/vue/forms'
 
 import LocationSelector from '@/components/LocationSelector'
 import ImageSelector from '@/components/ImageSelector'
@@ -60,7 +60,10 @@ export default {
 		ImageSelector,
 		LocationSelector,
 		BaseButton,
-		TextInput
+		TextInput,
+		DateInput,
+		NumberInput,
+		TextareaInput
 	},
 	data: () => ({
 		PostType: models.PostType,
@@ -94,7 +97,7 @@ export default {
 	},
 	methods: {
 		setDynamicTextAreaSize() {
-			const txtContent = this.$refs.txtContent
+			const txtContent = this.$refs.txtContent.$el
 
 			txtContent.style.height = txtContent.scrollHeight + 'px'
 			txtContent.addEventListener('input', function() {
@@ -105,14 +108,6 @@ export default {
 				const scrollingElement = document.scrollingElement || document.body
 				scrollingElement.scrollTop = scrollingElement.scrollHeight
 			})
-		},
-		setDate(event) {
-			const date = event.target.valueAsDate
-
-			if (!date) return
-
-			this.post.date = date
-			this.save()
 		},
 		save() {
 			if (this.saveTimeout) clearTimeout(this.saveTimeout)
@@ -144,7 +139,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@tuuturu/styling/dist/style';
+@import '~@tuuturu/styling/style';
 @import '~@/assets/palette';
 
 .EditPost {
@@ -153,6 +148,13 @@ export default {
 	* {
 		margin-bottom: 1em;
 	}
+}
+
+.TextInput,
+.DateInput,
+.NumberInput,
+.TextareaInput {
+	border-color: $green;
 }
 
 .single-line {
@@ -183,14 +185,10 @@ label {
 
 		height: 100%;
 		width: 100%;
-		padding: 1em;
-
-		border: 3px solid $primary-color;
 
 		resize: none;
 
 		font-size: 12pt;
-		line-height: 2em;
 
 		overflow: hidden;
 	}
