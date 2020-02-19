@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "@tuuturu/motoblog-common": "^0.0.16",
-    "@tuuturu/styling": "^0.0.15",
-    "@tuuturu/vue": "^0.0.3",
+    "@tuuturu/styling": "^0.0.18",
+    "@tuuturu/vue": "^0.0.11",
     "core-js": "^3.4.4",
     "leaflet": "^1.6.0",
     "nanoid": "^2.1.11",
