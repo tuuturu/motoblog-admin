@@ -1,7 +1,10 @@
-import nanoid from 'nanoid'
-import { mockPosts } from '@/store/mock_data'
+import Axios from 'axios'
 
 import { models } from '@tuuturu/motoblog-common'
+
+const axios = Axios.create({
+	baseURL: process.env.VUE_APP_POST_SERVICE_URL
+})
 
 const state = {
 	posts: []
@@ -52,14 +55,15 @@ const actions = {
 	async refreshPosts({ commit, getters }) {
 		if (getters['hasPosts']) return getters['posts']
 
-		// TODO: actual fetching here
-		// const { data } = axios.request({})
-		const data = mockPosts.map(post => new models.Post(post))
+		const { data } = await axios.get('/posts')
 
-		commit('posts', data)
+		commit(
+			'posts',
+			data.map(post => new models.Post(post))
+		)
 	},
 	async getPosts({ dispatch, getters }) {
-		dispatch('refreshPosts')
+		await dispatch('refreshPosts')
 
 		return getters['posts']
 	},
@@ -73,11 +77,28 @@ const actions = {
 		return null
 	},
 	async savePost({ commit }, post) {
-		if (!post.id) post.id = nanoid()
+		const options = {
+			url: '/posts',
+			method: 'post',
+			data: post
+		}
 
-		commit('post', post)
+		if (post.id) {
+			options.url += '/' + post.id
+			options.method = 'patch'
+			commit('deletePost', { id: post.id })
+		}
 
-		return post.id
+		const { data } = await axios.request(options)
+
+		commit('post', new models.Post(data))
+
+		return data.id
+	},
+	async deletePost({ commit }, id) {
+		commit('deletePost', { id })
+
+		await axios.delete(`/posts/${id}`)
 	}
 }
 

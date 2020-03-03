@@ -30,7 +30,7 @@
 			<LocationSelector v-model="post.location" @input="save" />
 		</label>
 
-		<ImageSelector />
+		<ImageSelector @imageAppend="onImageAppend" :images="post.images" />
 
 		<label>
 			<span>Content</span>
@@ -75,7 +75,8 @@ export default {
 			date: new Date(Date.now()),
 			distance: 0,
 			content: '',
-			location: 'geo:53.252,10.02'
+			location: 'geo:53.252,10.02',
+			images: []
 		})
 	}),
 	computed: {
@@ -128,8 +129,13 @@ export default {
 
 			if (!doDelete) return
 
-			this.$store.commit('posts/deletePost', { id: this.post.id })
+			this.$store.dispatch('posts/deletePost', this.post.id)
 			this.$router.replace('/posts')
+		},
+		onImageAppend(image) {
+			this.post.images.push(image)
+
+			this.save()
 		}
 	}
 }
