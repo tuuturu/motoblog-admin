@@ -7,6 +7,8 @@ create-npmrc-file:
 	@echo "@tuuturu:registry=https://npm.pkg.github.com/tuuturu" >> .npmrc
 create-dotenv-file:
 	@echo 📖 Creating .env file
+	@echo "VUE_APP_BASE_URL=http://localhost:8080" >> .env
+	@echo "VUE_APP_GATEKEEPER_URL=https://localhost:4554" >> .env
 	@echo "VUE_APP_POST_SERVICE_URL=http://localhost:3000" >> .env
 
 configure: create-npmrc-file create-dotenv-file

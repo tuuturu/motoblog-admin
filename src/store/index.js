@@ -1,12 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import posts from '@/store/posts'
+import auth from '@/store/auth'
+import posts from '@/feature/posts/store'
+import trips from '@/feature/trips/store'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
 	modules: {
-		posts
+		auth,
+		posts,
+		trips
 	}
 })
