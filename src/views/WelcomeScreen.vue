@@ -1,27 +1,28 @@
 <template>
-	<div class="WelcomeScreen">
-		<div class="button-container">
-			<a href="https://localhost:4554/login?redirect=http://localhost:8080">
-				Login
-			</a>
-			<button @click="logout">Logout</button>
-		</div>
-		<button @click="getInfo">Get userinfo</button>
-	</div>
+	<div
+		class="WelcomeScreen"
+		:style="{ backgroundImage: `url(${splash_image})` }"
+	></div>
 </template>
 
 <script>
-import axios from 'axios'
+import splash_image from '@/assets/splash-screen.png'
 
 export default {
 	name: 'WelcomeScreen.vue',
-	methods: {
-		logout() {
-			axios.post('https://localhost:4554/logout', {}, { withCredentials: true })
-		},
-		getInfo() {
-			axios.get('https://localhost:4554/userinfo', { withCredentials: true })
-		}
+	data: () => ({
+		splash_image
+	}),
+	async mounted() {
+		await this.$store.dispatch('auth/refreshUserinfo')
+
+		if (this.$store.getters['auth/isAuthenticated'])
+			await this.$router.push('/trips')
+		else
+			await this.$store.dispatch(
+				'auth/login',
+				process.env.VUE_APP_BASE_URL + '/trips'
+			)
 	}
 }
 </script>
@@ -34,6 +35,10 @@ export default {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 .button-container {
