@@ -37,7 +37,7 @@
 import { models } from '@tuuturu/motoblog-common'
 import { BaseButton } from '@tuuturu/vue/buttons'
 
-import Dropdown from '@/components/Dropdown'
+import Dropdown from '@/feature/posts/components/Dropdown'
 
 export default {
 	name: 'PostList',
@@ -84,8 +84,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@tuuturu/styling/style';
-@import '~@/assets/palette';
+@import 'node_modules/@tuuturu/styling/style';
+@import '~@/assets/palette.scss';
 
 .PostList {
 	display: flex;

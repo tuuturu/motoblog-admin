@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import IconChevronDown from '@/components/IconChevronDown'
+import IconChevronDown from '@/feature/posts/components/IconChevronDown'
 
 export default {
 	name: 'Dropdown',
@@ -41,8 +41,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@tuuturu/styling/style';
-@import '~@/assets/palette';
+@import 'node_modules/@tuuturu/styling/style';
+@import '~@/assets/palette.scss';
 
 .Dropdown {
 	cursor: pointer;

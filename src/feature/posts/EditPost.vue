@@ -49,8 +49,8 @@ import {
 	TextareaInput
 } from '@tuuturu/vue/forms'
 
-import LocationSelector from '@/components/LocationSelector'
-import ImageSelector from '@/components/ImageSelector'
+import LocationSelector from '@/feature/posts/components/LocationSelector'
+import ImageSelector from '@/feature/posts/components/ImageSelector'
 
 const SAVE_TIMEOUT_MS = 500
 
@@ -142,8 +142,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@tuuturu/styling/style';
-@import '~@/assets/palette';
+@import 'node_modules/@tuuturu/styling/style';
+@import '~@/assets/palette.scss';
 
 .EditPost {
 	padding: 1em;

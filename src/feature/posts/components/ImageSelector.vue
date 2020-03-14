@@ -30,7 +30,7 @@
 
 <script>
 import axios from 'axios'
-import IconAddPhoto from '@/components/IconAddPhoto'
+import IconAddPhoto from '@/feature/posts/components/IconAddPhoto'
 
 export default {
 	name: 'ImageSelector',
@@ -65,9 +65,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@tuuturu/styling/style';
-@import '~@/assets/media';
-@import '~@/assets/palette';
+@import 'node_modules/@tuuturu/styling/style';
+@import '~@/assets/media.scss';
+@import '~@/assets/palette.scss';
 
 .ImageSelector {
 	text-align: left;

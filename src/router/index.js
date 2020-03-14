@@ -1,26 +1,32 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import PostList from '@/views/PostList'
-import EditPost from '@/views/EditPost'
+import trips from '@/feature/trips/routes'
+import posts from '@/feature/posts/routes'
 
 Vue.use(VueRouter)
 
-const routes = [
-	{
-		path: '/posts',
-		name: 'postlist',
-		component: PostList
-	},
-	{
-		path: '/posts/edit',
-		name: 'editpost',
-		component: EditPost
-	}
-]
+function installRoutes(routeMapper) {
+	const routes = []
 
-const router = new VueRouter({
-	routes
+	Object.keys(routeMapper).map(prefix => {
+		const moduleRoutes = [...routeMapper[prefix]]
+
+		moduleRoutes.map(item => {
+			item.path = `/${prefix}${item.path}`
+
+			routes.push(item)
+		})
+	})
+
+	return routes
+}
+
+const routes = installRoutes({
+	trips,
+	posts
 })
+
+const router = new VueRouter({ routes })
 
 export default router

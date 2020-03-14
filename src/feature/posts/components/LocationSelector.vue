@@ -10,7 +10,7 @@
 
 <script>
 import L from 'leaflet'
-import IconCrosshair from '@/components/IconCrosshair'
+import IconCrosshair from '@/feature/posts/components/IconCrosshair'
 
 const TILE_URL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 const ATTRIBUTION =
@@ -70,7 +70,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '~leaflet/dist/leaflet.css';
-@import '~@/assets/palette';
+@import '~@/assets/palette.scss';
 
 .LocationSelector {
 	text-align: left;
