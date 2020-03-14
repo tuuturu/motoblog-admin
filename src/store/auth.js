@@ -6,34 +6,25 @@ const axios = Axios.create({
 })
 
 export const state = {
-	last_update: new Date(0),
 	user: null
 }
 
 export const getters = {
 	isAuthenticated: state => state.user !== null,
-	userinfoIsFresh: state => {
-		return new Date(Date.now()) - state.last_update < 60 * 1000
-	}
+	principal: state => state.user.sub
 }
 
 export const mutations = {
 	user(state, user) {
 		state.user = user
-	},
-	update(state) {
-		state.last_update = new Date(Date.now())
 	}
 }
 
 export const actions = {
-	async refreshUserinfo({ commit, getters }) {
-		if (getters['userinfoIsFresh']) return
-
+	async refreshUserinfo({ commit }) {
 		const { data } = await axios.get('https://localhost:4554/userinfo')
 
 		commit('user', data)
-		commit('update')
 	},
 	login(context, redirect = `${process.env.VUE_APP_BASE_URL}/`) {
 		window.location.href =

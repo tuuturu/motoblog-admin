@@ -25,7 +25,12 @@
 			<BaseButton
 				primary
 				class="button-new"
-				@click="$router.push('/posts/edit')"
+				@click="
+					$router.push({
+						path: '/posts/edit',
+						query: { trip: $route.query.trip }
+					})
+				"
 			>
 				New
 			</BaseButton>
@@ -63,7 +68,12 @@ export default {
 		}
 	},
 	async created() {
-		this.posts = await this.$store.dispatch('posts/getPosts')
+		const trip_id = this.$route.query.trip
+
+		await this.$store.dispatch('auth/refreshUserinfo')
+		await this.$store.dispatch('posts/refreshPosts')
+
+		this.posts = await this.$store.getters['posts/postsByTrip'](trip_id)
 	},
 	methods: {
 		onMainActionClick(post) {

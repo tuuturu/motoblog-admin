@@ -15,6 +15,9 @@ const getters = {
 	posts: state => {
 		return state.posts
 	},
+	postsByTrip: state => trip_id => {
+		return state.posts.filter(post => post.trip === trip_id)
+	},
 	post: state => id => {
 		const match = state.posts.filter(p => p.id === id)
 
@@ -53,10 +56,14 @@ const mutations = {
 }
 
 const actions = {
-	async refreshPosts({ commit, getters }) {
+	async refreshPosts({ commit, getters, rootGetters }) {
 		if (getters['hasPosts']) return getters['posts']
 
-		const { data } = await axios.get('/posts')
+		const user = rootGetters['auth/principal']
+
+		const { data } = await axios.get('/posts', {
+			params: { user }
+		})
 
 		commit(
 			'posts',

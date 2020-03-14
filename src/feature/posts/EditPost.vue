@@ -68,16 +68,7 @@ export default {
 	data: () => ({
 		PostType: models.PostType,
 		saveTimeout: null,
-		post: new models.Post({
-			id: undefined,
-			status: models.PostType.DRAFT,
-			title: '',
-			date: new Date(Date.now()),
-			distance: 0,
-			content: '',
-			location: 'geo:53.252,10.02',
-			images: []
-		})
+		post: null
 	}),
 	computed: {
 		date() {
@@ -90,10 +81,28 @@ export default {
 		this.setDynamicTextAreaSize()
 	},
 	async created() {
-		if (!this.$route.params.id) return
+		const post_id = this.$route.params.id
+		const trip_id = this.$route.query.trip
 
-		this.post = await this.$store.dispatch('posts/getPost', {
-			id: this.$route.params.id
+		if (post_id) {
+			this.post = await this.$store.dispatch('posts/getPost', {
+				id: post_id
+			})
+
+			return
+		}
+
+		if (!trip_id) throw new Error('No post id nor trip id found')
+
+		this.post = new models.Post({
+			trip: trip_id,
+			status: models.PostType.DRAFT,
+			title: '',
+			date: new Date(Date.now()),
+			distance: 0,
+			content: '',
+			location: 'geo:53.252,10.02',
+			images: []
 		})
 	},
 	methods: {
