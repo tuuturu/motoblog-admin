@@ -2,7 +2,8 @@ const authMiddleware = {
 	install(Vue) {
 		Vue.mixin({
 			beforeRouteEnter(to, from, next) {
-				if (from.name) return next()
+				// eslint-disable-next-line
+				if (from.name || to.name === 'splashscreen' || true) return next()
 
 				next(async vm => {
 					await vm.$store.dispatch('auth/refreshUserinfo')
