@@ -22,13 +22,24 @@ export const mutations = {
 
 export const actions = {
 	async refreshUserinfo({ commit }) {
-		const { data } = await axios.get('https://localhost:4554/userinfo')
+		const url = `${process.env.VUE_APP_GATEKEEPER_URL}/userinfo`
 
-		commit('user', data)
+		try {
+			const { data } = await axios.get(url)
+
+			commit('user', data)
+		}
+		catch (error) {
+			if (error.response && error.response.status === 401)
+				commit('user', null)
+			else throw error
+		}
 	},
 	login(context, redirect = `${process.env.VUE_APP_BASE_URL}/`) {
+		const encodedRedirect = encodeURIComponent(redirect)
+
 		window.location.href =
-			process.env.VUE_APP_GATEKEEPER_URL + `/login?redirect=${redirect}`
+			process.env.VUE_APP_GATEKEEPER_URL + `/login?redirect=${encodedRedirect}`
 	},
 	async logout() {
 		await axios.post('/logout', {})

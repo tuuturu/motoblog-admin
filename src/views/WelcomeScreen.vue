@@ -16,13 +16,16 @@ export default {
 	async mounted() {
 		await this.$store.dispatch('auth/refreshUserinfo')
 
-		if (this.$store.getters['auth/isAuthenticated'])
-			await this.$router.push('/trips')
-		else
-			await this.$store.dispatch(
-				'auth/login',
-				process.env.VUE_APP_BASE_URL + '/trips'
-			)
+		setTimeout(async () => {
+			if (this.$store.getters['auth/isAuthenticated'])
+				await this.$router.push('/trips')
+			else {
+				await this.$store.dispatch(
+					'auth/login',
+					process.env.VUE_APP_BASE_URL + '/#/trips'
+				)
+			}
+		}, 2000)
 	}
 }
 </script>
