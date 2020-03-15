@@ -89,17 +89,18 @@ cd motoblog-admin
 make configure && mv .npmrc{.new,}
 ```
 3. Add your Github developer token to the .npmrc file and to a token.txt file
-4. Install NPM packages and setup project
+4. Configure the .activate file to fit your auth provider setup
+5. Install NPM packages and setup project
 ```shell script
 npm install
 ```
-5. Log in to the Github docker registry
+6. Log in to the Github docker registry
 ```shell script
 cat token.txt | docker login docker.pkg.github.com -u <github username> --password-stdin
 ```
-6. Start the backend
+7. Start the backend
 ```shell script
-docker-compose up
+source .activate && docker-compose up
 ```
 
 
