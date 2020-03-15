@@ -16,6 +16,9 @@ const getters = {
 const mutations = {
 	trips(state, trips) {
 		state.trips = trips
+	},
+	trip(state, trip) {
+		state.trips = [ ...state.trips, trip ]
 	}
 }
 
@@ -34,6 +37,13 @@ const actions = {
 		await dispatch('refreshTrips')
 
 		return getters['trips']
+	},
+	async createTrip({ commit }) {
+		const { data } = await axios.post('/trips')
+
+		commit('trip', data)
+
+		return data
 	}
 }
 

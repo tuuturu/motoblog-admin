@@ -4,7 +4,7 @@
 			<BaseButton
 				primary
 				class="new-trip-button"
-				@click="$router.push('trips/edit')"
+				@click="createTrip"
 			>
 				New Trip
 			</BaseButton>
@@ -34,6 +34,13 @@ export default {
 	},
 	created() {
 		this.$store.dispatch('trips/refreshTrips')
+	},
+	methods: {
+		async createTrip() {
+			const { id } = await this.$store.dispatch('trips/createTrip')
+
+			await this.$router.push({ path: '/posts', query: { trip: id } })
+		}
 	}
 }
 </script>
