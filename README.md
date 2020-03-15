@@ -76,25 +76,31 @@ To get a local copy up and running follow these simple steps.
 ### Prerequisites
 
 * npm
-```sh
-npm install npm@latest -g
-```
 
 ### Installation
  
-1. Clone the repo
-```sh
+1. Clone the repo and change directory into it
+```shell script
 git clone https://github.com/tuuturu/motoblog-admin.git
+cd motoblog-admin
 ```
-2. Install NPM packages and setup project
-```sh
-make build
-```
-3. Configure the project
+2. Configure the project
 ```shell script
 make configure && mv .npmrc{.new,}
 ```
-4. Add your Github developer token to the .npmrc file
+3. Add your Github developer token to the .npmrc file and to a token.txt file
+4. Install NPM packages and setup project
+```shell script
+npm install
+```
+5. Log in to the Github docker registry
+```shell script
+cat token.txt | docker login docker.pkg.github.com -u <github username> --password-stdin
+```
+6. Start the backend
+```shell script
+docker-compose up
+```
 
 
 
