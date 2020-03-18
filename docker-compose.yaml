@@ -16,6 +16,7 @@ services:
     ports:
       - "4554:4554"
     environment:
+      NODE_ENV: development
       DISCOVERY_URL: ${GATEKEEPER_DISCOVERY_URL}
       CLIENT_ID: ${GATEKEEPER_CLIENT_ID}
       CLIENT_SECRET: ${GATEKEEPER_CLIENT_SECRET}
