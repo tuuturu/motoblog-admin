@@ -123,7 +123,7 @@ export default {
 			if (this.saveTimeout) clearTimeout(this.saveTimeout)
 
 			this.saveTimeout = setTimeout(async () => {
-				this.post.id = await this.$store.dispatch('posts/savePost', this.post)
+				this.post = await this.$store.dispatch('posts/savePost', this.post)
 			}, SAVE_TIMEOUT_MS)
 		},
 		togglePublished() {

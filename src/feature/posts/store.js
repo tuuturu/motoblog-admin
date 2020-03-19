@@ -98,10 +98,11 @@ const actions = {
 		}
 
 		const { data } = await axios.request(options)
+		const updatedPost = new models.Post(data)
 
-		commit('post', new models.Post(data))
+		commit('post', updatedPost)
 
-		return data.id
+		return updatedPost
 	},
 	async deletePost({ commit }, id) {
 		commit('deletePost', { id })
