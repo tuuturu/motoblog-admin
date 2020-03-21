@@ -1,20 +1,21 @@
 <template>
-	<div
-		class="WelcomeScreen"
-		:style="{ backgroundImage: `url(${splash_image})` }"
-	></div>
+	<div ref="container" class="WelcomeScreen">
+		<Logo />
+	</div>
 </template>
 
 <script>
-import splash_image from '@/assets/splash-screen.png'
+import { Logo } from '@tuuturu/vue/icons'
 
 export default {
 	name: 'WelcomeScreen.vue',
-	data: () => ({
-		splash_image
-	}),
+	components: {
+		Logo
+	},
 	async mounted() {
 		await this.$store.dispatch('auth/refreshUserinfo')
+
+		this.$refs.container.style.backgroundColor = '#545975'
 
 		setTimeout(async () => {
 			if (this.$store.getters['auth/isAuthenticated'])
@@ -39,15 +40,15 @@ export default {
 	justify-content: center;
 	align-items: center;
 
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
+	background-color: #34374C;
+	transition: background-color ease-in 2s;
 }
 
-.button-container {
-	display: flex;
-	justify-content: space-between;
-
-	width: 25%;
+svg {
+	position: absolute;
+	right: 0;
+	width: 75%;
+	height: 75%;
 }
+
 </style>
