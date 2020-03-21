@@ -1,15 +1,22 @@
 <template>
-	<div class="TripList" :style="{ 'background-image': 'url(' + tripsBackground + ')' }">
+	<div
+		class="TripList"
+		:style="{ 'background-image': `url(${tripsBackground})` }"
+	>
 		<div class="trip-list-items">
 			<Button @click="createTrip">
 				{{ addTripText }}
 			</Button>
-			<TripListCardItem
-				v-for="trip in trips"
-				@click="$router.push(`/posts?trip=${trip.id}`)"
-				:key="trip.id"
-				:trip="trip"
-			/>
+
+			<h1>Tripped trips</h1>
+			<ul>
+				<li v-for="trip in trips" :key="trip.id">
+					<TripListCardItem
+						@click="$router.push(`/posts?trip=${trip.id}`)"
+						:trip="trip"
+					/>
+				</li>
+			</ul>
 		</div>
 	</div>
 </template>
@@ -28,11 +35,12 @@ export default {
 		active_trip: true
 	}),
 	computed: {
-		...mapState('trips', ['trips']),
+		...mapState('trips', ['trips', 'tripsFetched']),
 		addTripText() {
-			if (this.trips.length === 0) return 'Add first trip'
+			if (!this.tripsFetched) return ' '
+			if (this.trips.length > 0) return 'New trip'
 
-			return 'New trip'
+			return 'Add first trip'
 		}
 	},
 	created() {
@@ -55,16 +63,26 @@ export default {
 
 	height: 100%;
 	width: 100%;
-	display: flex;
 
 	padding: 4em 1em;
 
-	justify-content: center;
-	border: 0;
+	text-align: left;
+}
+
+h1 {
+	color: #7d7d7d;
 }
 
 .Button {
 	width: 100%;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+}
+li {
+	margin-bottom: 1em;
 }
 
 .trip-list-items {

@@ -1,6 +1,6 @@
 <template>
-	<div class="TripListCardItem" v-on="$listeners">
-		<h2>Trip</h2>
+	<div class="PostListItemCard" v-on="$listeners">
+		<h2>Post</h2>
 		<span>{{ date }}</span>
 	</div>
 </template>
@@ -22,7 +22,7 @@ const MONTHS = [
 ]
 
 export default {
-	name: 'TripListCardItem',
+	name: 'PostListItemCard',
 	props: {
 		trip: Object
 	},
@@ -41,13 +41,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.TripListCardItem {
-	width: 100%;
+.PostListItemCard {
 	background-color: #c4c4c4;
 
 	padding: 3em 1em 1em 1em;
 
 	border-radius: 2px;
+
+	text-align: left;
 
 	h2 {
 		margin-bottom: 0.5em;

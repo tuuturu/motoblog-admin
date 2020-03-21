@@ -1,15 +1,5 @@
 <template>
 	<div class="EditPost">
-		<div class="single-line">
-			<Button @click="deletePost" danger :disabled="!post.id">
-				Delete
-			</Button>
-			<Button @click="togglePublished" :disabled="!post.id">
-				<span v-if="post.status === PostType.PUBLISHED">Unpublish</span>
-				<span v-else>Publish</span>
-			</Button>
-		</div>
-
 		<label>
 			<span>Title</span>
 			<TextInput v-model="post.title" @input="save" />
@@ -25,17 +15,38 @@
 			</label>
 		</div>
 
-		<label>
+		<label v-if="false">
 			<span>Location</span>
 			<LocationSelector v-model="post.location" @input="save" />
 		</label>
 
-		<ImageSelector @imageAppend="onImageAppend" :images="post.images" />
+		<ImageSelector
+			v-if="false"
+			@imageAppend="onImageAppend"
+			:images="post.images"
+		/>
 
 		<label>
 			<span>Content</span>
 			<TextareaInput ref="txtContent" v-model="post.content" @input="save" />
 		</label>
+
+		<div class="icons">
+			<IconCamera />
+			<IconImage />
+			<IconLocation />
+		</div>
+
+		<div class="buttons">
+			<Button secondary @click="save">Save draft</Button>
+
+			<Button @click="togglePublished">
+				<span v-if="post.status === PostType.PUBLISHED">Unpublish</span>
+				<span v-else>Publish</span>
+			</Button>
+
+			<Button danger v-if="post.id" @click="deletePost">Delete</Button>
+		</div>
 	</div>
 </template>
 
@@ -48,6 +59,7 @@ import {
 	NumberInput,
 	TextareaInput
 } from '@tuuturu/vue/forms'
+import { IconCamera, IconImage, IconLocation } from '@tuuturu/vue/icons'
 
 import LocationSelector from '@/feature/posts/components/LocationSelector'
 import ImageSelector from '@/feature/posts/components/ImageSelector'
@@ -63,10 +75,12 @@ export default {
 		TextInput,
 		DateInput,
 		NumberInput,
-		TextareaInput
+		TextareaInput,
+		IconCamera,
+		IconImage,
+		IconLocation
 	},
 	data: () => ({
-		PostType: models.PostType,
 		saveTimeout: null,
 		post: null
 	}),
@@ -156,17 +170,6 @@ export default {
 
 .EditPost {
 	padding: 1em;
-
-	* {
-		margin-bottom: 1em;
-	}
-}
-
-.TextInput,
-.DateInput,
-.NumberInput,
-.TextareaInput {
-	border-color: $green;
 }
 
 .single-line {
@@ -191,6 +194,8 @@ label {
 
 	width: 100%;
 
+	margin-bottom: 1em;
+
 	input,
 	textarea {
 		@include clickable;
@@ -210,7 +215,30 @@ label {
 	}
 }
 
-button {
-	transition: all 0.2s ease;
+.icons {
+	width: 100%;
+
+	margin: 3em 0;
+
+	text-align: left;
+
+	:not(:last-child) {
+		margin-right: 1em;
+	}
+}
+
+.buttons {
+	* {
+		width: 100%;
+
+		transition: all 0.2s ease;
+	}
+
+	:not(:last-child) {
+		margin-bottom: 1em;
+	}
+	:last-child {
+		margin-bottom: 1.5em;
+	}
 }
 </style>

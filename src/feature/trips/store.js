@@ -6,6 +6,7 @@ const axios = Axios.create({
 })
 
 const state = {
+	tripsFetched: false,
 	trips: []
 }
 
@@ -14,11 +15,14 @@ const getters = {
 }
 
 const mutations = {
+	fetchedTrips(state) {
+		state.tripsFetched = true
+	},
 	trips(state, trips) {
 		state.trips = trips
 	},
 	trip(state, trip) {
-		state.trips = [ ...state.trips, trip ]
+		state.trips = [...state.trips, trip]
 	}
 }
 
@@ -32,6 +36,7 @@ const actions = {
 		const { data } = await axios.get(url)
 
 		commit('trips', data)
+		commit('fetchedTrips')
 	},
 	async getTrips({ dispatch, getters }) {
 		await dispatch('refreshTrips')

@@ -1,16 +1,16 @@
 <template>
 	<div ref="container" class="WelcomeScreen">
-		<Logo />
+		<IconLogo />
 	</div>
 </template>
 
 <script>
-import { Logo } from '@tuuturu/vue/icons'
+import { IconLogo } from '@tuuturu/vue/icons'
 
 export default {
 	name: 'WelcomeScreen.vue',
 	components: {
-		Logo
+		IconLogo
 	},
 	async mounted() {
 		await this.$store.dispatch('auth/refreshUserinfo')
