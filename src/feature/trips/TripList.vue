@@ -1,13 +1,9 @@
 <template>
-	<div class="TripList">
+	<div class="TripList" :style="{ 'background-image': 'url(' + tripsBackground + ')' }">
 		<div class="trip-list-items">
-			<BaseButton
-				primary
-				class="new-trip-button"
-				@click="createTrip"
-			>
-				New Trip
-			</BaseButton>
+			<Button @click="createTrip">
+				{{ addTripText }}
+			</Button>
 			<TripListCardItem
 				v-for="trip in trips"
 				@click="$router.push(`/posts?trip=${trip.id}`)"
@@ -20,17 +16,24 @@
 
 <script>
 import { mapState } from 'vuex'
-import { BaseButton } from '@tuuturu/vue/buttons'
+import { Button } from '@tuuturu/vue/buttons'
+import tripsBackground from '@/assets/trips_background.svg'
 import TripListCardItem from '@/feature/trips/components/TripListCardItem'
 
 export default {
 	name: 'TripList',
-	components: { BaseButton, TripListCardItem },
+	components: { Button, TripListCardItem },
 	data: () => ({
+		tripsBackground,
 		active_trip: true
 	}),
 	computed: {
-		...mapState('trips', ['trips'])
+		...mapState('trips', ['trips']),
+		addTripText() {
+			if (this.trips.length === 0) return 'Add first trip'
+
+			return 'New trip'
+		}
 	},
 	created() {
 		this.$store.dispatch('trips/refreshTrips')
@@ -47,6 +50,9 @@ export default {
 
 <style lang="scss" scoped>
 .TripList {
+	background-repeat: no-repeat;
+	background-size: cover;
+
 	height: 100%;
 	width: 100%;
 	display: flex;
@@ -54,11 +60,11 @@ export default {
 	padding: 4em 1em;
 
 	justify-content: center;
+	border: 0;
 }
 
-.new-trip-button {
+.Button {
 	width: 100%;
-	height: 96px;
 }
 
 .trip-list-items {

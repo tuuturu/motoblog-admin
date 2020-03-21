@@ -1,16 +1,16 @@
 <template>
 	<div class="TripListCardItem">
-		<BaseButton v-on="$listeners" secondary>Trip</BaseButton>
+		<Button v-on="$listeners" secondary>Trip</Button>
 	</div>
 </template>
 
 <script>
-import { BaseButton } from '@tuuturu/vue/buttons'
+import { Button } from '@tuuturu/vue/buttons'
 
 export default {
 	name: 'TripListCardItem',
 	components: {
-		BaseButton
+		Button
 	},
 	props: {
 		trip: Object
@@ -27,7 +27,7 @@ export default {
 	}
 }
 
-.BaseButton {
+.Button {
 	width: 100%;
 	height: 96px;
 }

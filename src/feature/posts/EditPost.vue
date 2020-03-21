@@ -1,13 +1,13 @@
 <template>
 	<div class="EditPost">
 		<div class="single-line">
-			<BaseButton @click="deletePost" danger :disabled="!post.id">
+			<Button @click="deletePost" danger :disabled="!post.id">
 				Delete
-			</BaseButton>
-			<BaseButton @click="togglePublished" primary :disabled="!post.id">
+			</Button>
+			<Button @click="togglePublished" :disabled="!post.id">
 				<span v-if="post.status === PostType.PUBLISHED">Unpublish</span>
 				<span v-else>Publish</span>
-			</BaseButton>
+			</Button>
 		</div>
 
 		<label>
@@ -41,7 +41,7 @@
 
 <script>
 import { models } from '@tuuturu/motoblog-common'
-import { BaseButton } from '@tuuturu/vue/buttons'
+import { Button } from '@tuuturu/vue/buttons'
 import {
 	TextInput,
 	DateInput,
@@ -59,7 +59,7 @@ export default {
 	components: {
 		ImageSelector,
 		LocationSelector,
-		BaseButton,
+		Button,
 		TextInput,
 		DateInput,
 		NumberInput,

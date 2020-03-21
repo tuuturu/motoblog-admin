@@ -15,15 +15,14 @@
 				:key="post.id"
 			>
 				<span>{{ post.title }}</span>
-				<BaseButton primary @click.stop="onMainActionClick(post)">
+				<Button @click.stop="onMainActionClick(post)">
 					{{ buttonText }}
-				</BaseButton>
+				</Button>
 			</li>
 		</ul>
 
 		<div class="button-footer">
-			<BaseButton
-				primary
+			<Button
 				class="button-new"
 				@click="
 					$router.push({
@@ -33,20 +32,20 @@
 				"
 			>
 				New
-			</BaseButton>
+			</Button>
 		</div>
 	</div>
 </template>
 
 <script>
 import { models } from '@tuuturu/motoblog-common'
-import { BaseButton } from '@tuuturu/vue/buttons'
+import { Button } from '@tuuturu/vue/buttons'
 
 import Dropdown from '@/feature/posts/components/Dropdown'
 
 export default {
 	name: 'PostList',
-	components: { Dropdown, BaseButton },
+	components: { Dropdown, Button },
 	data: () => ({
 		posts: [],
 		POST_TYPE_CHOICES: [
