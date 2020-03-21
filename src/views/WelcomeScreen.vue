@@ -40,7 +40,7 @@ export default {
 	justify-content: center;
 	align-items: center;
 
-	background-color: #34374C;
+	background-color: #34374c;
 	transition: background-color ease-in 2s;
 }
 
@@ -50,5 +50,4 @@ svg {
 	width: 75%;
 	height: 75%;
 }
-
 </style>
