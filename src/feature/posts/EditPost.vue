@@ -39,7 +39,7 @@
 		</label>
 
 		<div class="icons">
-			<IconCamera />
+			<IconCamera @click.native="capturePhoto" />
 			<IconImage />
 			<IconLocation />
 		</div>
@@ -109,7 +109,7 @@ export default {
 		this.setDynamicTextAreaSize()
 	},
 	async created() {
-		const post_id = this.$route.params.id
+		const post_id = this.$route.query.post
 		const trip_id = this.$route.query.trip
 
 		if (post_id) {
@@ -160,6 +160,14 @@ export default {
 			this.post.images.push(image)
 
 			this.save()
+		},
+		capturePhoto() {
+			const query = {}
+
+			if (this.post.trip) query.trip = this.post.trip
+			if (this.post.id) query.post = this.post.id
+
+			this.$router.push({ path: '/posts/edit/capture', query })
 		}
 	}
 }
