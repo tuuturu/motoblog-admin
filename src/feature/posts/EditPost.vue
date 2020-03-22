@@ -11,7 +11,10 @@
 			</label>
 			<label>
 				<span>Distance (km)</span>
-				<NumberInput v-model="post.distance" />
+				<NumberInput
+					:value="parseInt(post.distance)"
+					@input="post.distance = $event"
+				/>
 			</label>
 		</div>
 
@@ -41,7 +44,7 @@
 			<Button secondary @click="save">Save draft</Button>
 
 			<Button @click="togglePublished">
-				<span v-if="post.status === PostType.PUBLISHED">Unpublish</span>
+				<span v-if="post.status === PostStatus.PUBLISHED">Unpublish</span>
 				<span v-else>Publish</span>
 			</Button>
 
@@ -81,9 +84,18 @@ export default {
 		IconLocation
 	},
 	data: () => ({
-		PostType: models.PostType,
+		PostStatus: models.PostStatus,
 		saveTimeout: null,
-		post: null
+		post: new models.Post({
+			trip: undefined,
+			status: models.PostStatus.DRAFT,
+			date: new Date(Date.now()),
+			title: '',
+			content: '',
+			distance: 0,
+			location: 'geo:53.252,10.02',
+			images: []
+		})
 	}),
 	computed: {
 		date() {
@@ -109,16 +121,7 @@ export default {
 
 		if (!trip_id) throw new Error('No post id nor trip id found')
 
-		this.post = new models.Post({
-			trip: trip_id,
-			status: models.PostType.DRAFT,
-			title: '',
-			date: new Date(Date.now()),
-			distance: 0,
-			content: '',
-			location: 'geo:53.252,10.02',
-			images: []
-		})
+		this.post.trip = trip_id
 	},
 	methods: {
 		setDynamicTextAreaSize() {
@@ -142,9 +145,9 @@ export default {
 			}, SAVE_TIMEOUT_MS)
 		},
 		togglePublished() {
-			if (this.post.status === models.PostType.PUBLISHED)
-				this.post.status = models.PostType.UNPUBLISHED
-			else this.post.status = models.PostType.PUBLISHED
+			if (this.post.status === models.PostStatus.PUBLISHED)
+				this.post.status = models.PostStatus.UNPUBLISHED
+			else this.post.status = models.PostStatus.PUBLISHED
 
 			this.save()
 		},

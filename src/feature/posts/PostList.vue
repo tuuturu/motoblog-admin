@@ -51,12 +51,12 @@ export default {
 		},
 		draftedPosts() {
 			return this.relevantPosts.filter(
-				post => post.status !== models.PostType.PUBLISHED
+				post => post.status !== models.PostStatus.PUBLISHED
 			)
 		},
 		publishedPosts() {
 			return this.relevantPosts.filter(
-				post => post.status === models.PostType.PUBLISHED
+				post => post.status === models.PostStatus.PUBLISHED
 			)
 		}
 	},
