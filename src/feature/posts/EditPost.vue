@@ -2,9 +2,9 @@
 	<div class="EditPost">
 		<label>
 			<span>Title</span>
-			<TextInput v-model="post.title" />
+			<TextInput v-model="post.title" placeholder="A Nice Title" />
 		</label>
-		<div class="single-line">
+		<div class="single-line" v-if="false">
 			<label>
 				<span>Date</span>
 				<DateInput v-model="post.date" />
@@ -31,7 +31,11 @@
 
 		<label>
 			<span>Content</span>
-			<TextareaInput ref="txtContent" v-model="post.content" />
+			<TextareaInput
+				ref="txtContent"
+				v-model="post.content"
+				placeholder="A long and detailed description about where you've been and what you've seen :)"
+			/>
 		</label>
 
 		<div class="icons">
@@ -127,7 +131,7 @@ export default {
 		setDynamicTextAreaSize() {
 			const txtContent = this.$refs.txtContent.$el
 
-			txtContent.style.height = txtContent.scrollHeight + 'px'
+			txtContent.style.height = txtContent.scrollHeight + 50 + 'px'
 			txtContent.addEventListener('input', function() {
 				this.style.height = 'auto'
 				this.style.height = this.scrollHeight + 'px'
