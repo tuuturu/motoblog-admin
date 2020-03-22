@@ -2,22 +2,18 @@
 	<div class="PostList">
 		<IllustrationSunrise class="background" />
 
-		<Button
-			class="button-new"
-			@click="
-				$router.push({
-					path: '/posts/edit',
-					query: { trip: $route.query.trip }
-				})
-			"
-		>
+		<Button class="button-new" @click="addNewPost">
 			<span v-if="relevantPosts.length > 0">New Post</span>
 			<span v-else>Add First Post</span>
 		</Button>
 
 		<h1>Drafts</h1>
 		<ul v-if="draftedPosts.length !== 0">
-			<li @click="edit(post.id)" v-for="post in draftedPosts" :key="post.id">
+			<li
+				@click="editPost(post.id)"
+				v-for="post in draftedPosts"
+				:key="post.id"
+			>
 				<PostListItemCard :post="post" />
 			</li>
 		</ul>
@@ -25,7 +21,11 @@
 
 		<h1>Published</h1>
 		<ul v-if="publishedPosts.length !== 0">
-			<li @click="edit(post.id)" v-for="post in publishedPosts" :key="post.id">
+			<li
+				@click="editPost(post.id)"
+				v-for="post in publishedPosts"
+				:key="post.id"
+			>
 				<PostListItemCard :post="post" />
 			</li>
 		</ul>
@@ -47,6 +47,8 @@ export default {
 	computed: {
 		...mapState('posts', ['posts']),
 		relevantPosts() {
+			if (!this.$route.query.trip) return this.posts
+
 			return this.posts.filter(post => post.trip === this.$route.query.trip)
 		},
 		draftedPosts() {
@@ -65,12 +67,17 @@ export default {
 		await this.$store.dispatch('posts/refreshPosts')
 	},
 	methods: {
-		edit(id) {
-			const route = { name: 'editpost' }
-
-			if (id) route.params = { id }
-
-			this.$router.push(route)
+		addNewPost() {
+			this.$router.push({
+				path: '/posts/edit',
+				query: { trip: this.$route.query.trip }
+			})
+		},
+		editPost(id) {
+			this.$router.push({
+				name: 'editpost',
+				params: { id }
+			})
 		}
 	}
 }
