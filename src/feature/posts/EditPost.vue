@@ -71,8 +71,6 @@ import { IconCamera, IconImage, IconLocation } from '@tuuturu/vue/icons'
 import LocationSelector from '@/feature/posts/components/LocationSelector'
 import ImageSelector from '@/feature/posts/components/ImageSelector'
 
-const SAVE_TIMEOUT_MS = 500
-
 export default {
 	name: 'EditPost',
 	components: {
@@ -89,7 +87,6 @@ export default {
 	},
 	data: () => ({
 		PostStatus: models.PostStatus,
-		saveTimeout: null,
 		post: new models.Post({
 			trip: undefined,
 			status: models.PostStatus.DRAFT,
@@ -141,12 +138,8 @@ export default {
 				scrollingElement.scrollTop = scrollingElement.scrollHeight
 			})
 		},
-		save() {
-			if (this.saveTimeout) clearTimeout(this.saveTimeout)
-
-			this.saveTimeout = setTimeout(async () => {
-				this.post = await this.$store.dispatch('posts/savePost', this.post)
-			}, SAVE_TIMEOUT_MS)
+		async save() {
+			this.post = await this.$store.dispatch('posts/savePost', this.post)
 		},
 		togglePublished() {
 			if (this.post.status === models.PostStatus.PUBLISHED)
