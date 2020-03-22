@@ -28,10 +28,8 @@ export const actions = {
 			const { data } = await axios.get(url)
 
 			commit('user', data)
-		}
-		catch (error) {
-			if (error.response && error.response.status === 401)
-				commit('user', null)
+		} catch (error) {
+			if (error.response && error.response.status === 401) commit('user', null)
 			else throw error
 		}
 	},

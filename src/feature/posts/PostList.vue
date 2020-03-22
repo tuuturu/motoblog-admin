@@ -1,8 +1,7 @@
 <template>
-	<div
-		class="PostList"
-		:style="{ 'background-image': `url('${tripsBackground}')` }"
-	>
+	<div class="PostList">
+		<IllustrationSunrise class="background" />
+
 		<Button
 			class="button-new"
 			@click="
@@ -12,29 +11,25 @@
 				})
 			"
 		>
-			New post
+			<span v-if="relevantPosts.length > 0">New Post</span>
+			<span v-else>Add First Post</span>
 		</Button>
 
 		<h1>Drafts</h1>
-		<ul>
-			<li v-for="post in draftedPosts" :key="post.id">
-				<PostListItemCard />
+		<ul v-if="draftedPosts.length !== 0">
+			<li @click="edit(post.id)" v-for="post in draftedPosts" :key="post.id">
+				<PostListItemCard :post="post" />
 			</li>
 		</ul>
-		<h1>Published</h1>
+		<span v-else>You have no drafts for this trip</span>
 
-		<ul>
-			<li
-				@click="$router.push({ name: 'editpost', params: { id: post.id } })"
-				v-for="post in publishedPosts"
-				:key="post.id"
-			>
-				<span>{{ post.title }}</span>
-				<Button @click.stop="onMainActionClick(post)">
-					{{ buttonText }}
-				</Button>
+		<h1>Published</h1>
+		<ul v-if="publishedPosts.length !== 0">
+			<li @click="edit(post.id)" v-for="post in publishedPosts" :key="post.id">
+				<PostListItemCard :post="post" />
 			</li>
 		</ul>
+		<span v-else>You have no published posts for this trip</span>
 	</div>
 </template>
 
@@ -42,29 +37,25 @@
 import { models } from '@tuuturu/motoblog-common'
 import { Button } from '@tuuturu/vue/buttons'
 
-import tripsBackground from '@/assets/trips_background.svg'
 import PostListItemCard from '@/feature/posts/components/PostListItemCard'
 import { mapState } from 'vuex'
+import IllustrationSunrise from '@/components/IllustrationSunrise'
 
 export default {
 	name: 'PostList',
-	components: { PostListItemCard, Button },
-	data: () => ({
-		tripsBackground,
-		post_type: models.PostType.DRAFT
-	}),
+	components: { PostListItemCard, Button, IllustrationSunrise },
 	computed: {
 		...mapState('posts', ['posts']),
-		relevantTrips() {
+		relevantPosts() {
 			return this.posts.filter(post => post.trip === this.$route.query.trip)
 		},
 		draftedPosts() {
-			return this.relevantTrips.filter(
-				post => post.status === models.PostType.DRAFT
+			return this.relevantPosts.filter(
+				post => post.status !== models.PostType.PUBLISHED
 			)
 		},
 		publishedPosts() {
-			return this.relevantTrips.filter(
+			return this.relevantPosts.filter(
 				post => post.status === models.PostType.PUBLISHED
 			)
 		}
@@ -72,6 +63,15 @@ export default {
 	async created() {
 		await this.$store.dispatch('auth/refreshUserinfo')
 		await this.$store.dispatch('posts/refreshPosts')
+	},
+	methods: {
+		edit(id) {
+			const route = { name: 'editpost' }
+
+			if (id) route.params = { id }
+
+			this.$router.push(route)
+		}
 	}
 }
 </script>
@@ -80,12 +80,18 @@ export default {
 @import 'node_modules/@tuuturu/styling/style';
 @import '~@/assets/palette.scss';
 
+.background {
+	width: 105%;
+	height: 105%;
+
+	position: fixed;
+	left: -5px;
+	top: -5px;
+
+	z-index: -1000;
+}
+
 .PostList {
-	background-repeat: no-repeat;
-	background-size: cover;
-
-	height: 100%;
-
 	display: flex;
 	flex-direction: column;
 

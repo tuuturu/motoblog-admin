@@ -1,8 +1,7 @@
 <template>
-	<div
-		class="TripList"
-		:style="{ 'background-image': `url(${tripsBackground})` }"
-	>
+	<div class="TripList">
+		<IllustrationSunrise class="background" />
+
 		<div class="trip-list-items">
 			<Button @click="createTrip">
 				{{ addTripText }}
@@ -24,14 +23,13 @@
 <script>
 import { mapState } from 'vuex'
 import { Button } from '@tuuturu/vue/buttons'
-import tripsBackground from '@/assets/trips_background.svg'
 import TripListCardItem from '@/feature/trips/components/TripListCardItem'
+import IllustrationSunrise from '@/components/IllustrationSunrise'
 
 export default {
 	name: 'TripList',
-	components: { Button, TripListCardItem },
+	components: { Button, TripListCardItem, IllustrationSunrise },
 	data: () => ({
-		tripsBackground,
 		active_trip: true
 	}),
 	computed: {
@@ -57,6 +55,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.background {
+	width: 105%;
+	height: 105%;
+
+	position: fixed;
+	left: -5px;
+	top: -5px;
+
+	z-index: -1000;
+}
+
 .TripList {
 	background-repeat: no-repeat;
 	background-size: cover;

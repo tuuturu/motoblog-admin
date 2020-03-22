@@ -26,7 +26,7 @@ export default {
 					process.env.VUE_APP_BASE_URL + '/#/trips'
 				)
 			}
-		}, 2000)
+		}, 3000)
 	}
 }
 </script>
@@ -41,7 +41,7 @@ export default {
 	align-items: center;
 
 	background-color: #34374c;
-	transition: background-color ease-in 2s;
+	transition: background-color ease-in 1.5s;
 }
 
 svg {

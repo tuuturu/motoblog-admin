@@ -1,6 +1,6 @@
 <template>
 	<div class="PostListItemCard" v-on="$listeners">
-		<h2>Post</h2>
+		<h2>{{ post.title }}</h2>
 		<span>{{ date }}</span>
 	</div>
 </template>
@@ -24,11 +24,11 @@ const MONTHS = [
 export default {
 	name: 'PostListItemCard',
 	props: {
-		trip: Object
+		post: Object
 	},
 	computed: {
 		date() {
-			const fetchedDate = new Date(Date.now())
+			const fetchedDate = new Date(this.post.date)
 
 			const day = fetchedDate.getDate()
 			const month = MONTHS[fetchedDate.getMonth()]

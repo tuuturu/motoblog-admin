@@ -2,22 +2,22 @@
 	<div class="EditPost">
 		<label>
 			<span>Title</span>
-			<TextInput v-model="post.title" @input="save" />
+			<TextInput v-model="post.title" />
 		</label>
 		<div class="single-line">
 			<label>
 				<span>Date</span>
-				<DateInput v-model="post.date" @input="save" />
+				<DateInput v-model="post.date" />
 			</label>
 			<label>
 				<span>Distance (km)</span>
-				<NumberInput v-model="post.distance" @input="save" />
+				<NumberInput v-model="post.distance" />
 			</label>
 		</div>
 
 		<label v-if="false">
 			<span>Location</span>
-			<LocationSelector v-model="post.location" @input="save" />
+			<LocationSelector v-model="post.location" />
 		</label>
 
 		<ImageSelector
@@ -28,7 +28,7 @@
 
 		<label>
 			<span>Content</span>
-			<TextareaInput ref="txtContent" v-model="post.content" @input="save" />
+			<TextareaInput ref="txtContent" v-model="post.content" />
 		</label>
 
 		<div class="icons">
@@ -81,6 +81,7 @@ export default {
 		IconLocation
 	},
 	data: () => ({
+		PostType: models.PostType,
 		saveTimeout: null,
 		post: null
 	}),
@@ -103,7 +104,7 @@ export default {
 				id: post_id
 			})
 
-			return
+			if (this.post) return
 		}
 
 		if (!trip_id) throw new Error('No post id nor trip id found')
@@ -153,7 +154,7 @@ export default {
 			if (!doDelete) return
 
 			this.$store.dispatch('posts/deletePost', this.post.id)
-			this.$router.replace('/posts')
+			this.$router.replace({ path: '/posts', query: { trip: this.post.trip } })
 		},
 		onImageAppend(image) {
 			this.post.images.push(image)
