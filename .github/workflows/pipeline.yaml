@@ -59,11 +59,12 @@ jobs:
       - run: echo "::set-env name=RELEASE_VERSION::$(jq -r .version package.json)"
 
       - name: Publish Docker image
-        uses: elgohr/Publish-Docker-Github-Action@2.12
+        uses: elgohr/Publish-Docker-Github-Action@2.14
         with:
           # The name of the image you would like to push
           name: tuuturu/motoblog-admin/admin
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          tags: latest,${{ env.RELEASE_VERSION }}
+          tags: "latest,${{ env.RELEASE_VERSION }}"
+          buildargs: NPM_TOKEN=${{ secrets.GITHUB_TOKEN }}

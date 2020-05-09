@@ -1,0 +1,8 @@
+/node_modules/
+**/*.secret
+
+/.git*/
+README.md
+docker-compose.yaml
+
+.env*
