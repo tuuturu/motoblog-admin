@@ -21,7 +21,4 @@ yarn-error.log*
 *.sln
 *.sw?
 
-.npmrc
-.npmrc.new
-token.txt
-.activate
+**/*.secret
