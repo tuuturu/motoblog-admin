@@ -23,6 +23,8 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
           NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm run build
+        env:
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   bump:
     name: Bump version
