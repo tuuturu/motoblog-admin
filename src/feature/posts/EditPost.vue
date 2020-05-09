@@ -129,7 +129,7 @@ export default {
 			const txtContent = this.$refs.txtContent.$el
 
 			txtContent.style.height = txtContent.scrollHeight + 50 + 'px'
-			txtContent.addEventListener('input', function() {
+			txtContent.addEventListener('input', function () {
 				this.style.height = 'auto'
 				this.style.height = this.scrollHeight + 'px'
 
