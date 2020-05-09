@@ -10,7 +10,7 @@ export default {
 	name: 'CapturePhoto',
 	async mounted() {
 		if (!navigator.mediaDevices.getUserMedia) {
-			console.log('Camera API not available')
+			//console.warn('Camera API not available')
 
 			return
 		}
@@ -23,7 +23,7 @@ export default {
 
 			this.$refs.video.play()
 		} catch (error) {
-			console.error('Something bad happened: ' + error)
+			//console.error('Something bad happened: ' + error)
 		}
 	},
 	beforeDestroy() {
