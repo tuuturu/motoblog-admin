@@ -24,6 +24,7 @@
 -->
 
 <!-- PROJECT LOGO -->
+![Pipeline](https://github.com/tuuturu/motoblog-admin/workflows/Pipeline/badge.svg)
 <br />
 <p align="center">
   <h3 align="center">Motoblog Admin</h3>
