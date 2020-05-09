@@ -1,9 +1,10 @@
 import Axios from 'axios'
 
+import config from '@/app.config'
 import { models } from '@tuuturu/motoblog-common'
 
 const axios = Axios.create({
-	baseURL: process.env.VUE_APP_POST_SERVICE_URL,
+	baseURL: config.VUE_APP_POST_SERVICE_URL,
 	withCredentials: true
 })
 

@@ -1,7 +1,9 @@
 import Axios from 'axios'
 
+import config from '@/app.config'
+
 const axios = Axios.create({
-	baseURL: process.env.VUE_APP_GATEKEEPER_URL,
+	baseURL: config.VUE_APP_GATEKEEPER_URL,
 	withCredentials: true
 })
 
@@ -22,7 +24,7 @@ export const mutations = {
 
 export const actions = {
 	async refreshUserinfo({ commit }) {
-		const url = `${process.env.VUE_APP_GATEKEEPER_URL}/userinfo`
+		const url = `${config.VUE_APP_GATEKEEPER_URL}/userinfo`
 
 		try {
 			const { data } = await axios.get(url)
@@ -33,11 +35,11 @@ export const actions = {
 			else throw error
 		}
 	},
-	login(context, redirect = `${process.env.VUE_APP_BASE_URL}/`) {
+	login(context, redirect = `${config.VUE_APP_BASE_URL}/`) {
 		const encodedRedirect = encodeURIComponent(redirect)
 
 		window.location.href =
-			process.env.VUE_APP_GATEKEEPER_URL + `/login?redirect=${encodedRedirect}`
+			config.VUE_APP_GATEKEEPER_URL + `/login?redirect=${encodedRedirect}`
 	},
 	async logout() {
 		await axios.post('/logout', {})
