@@ -15,8 +15,11 @@ create-docker-compose-file:
 
 configure: create-npmrc-file create-dotenv-file create-docker-compose-file
 
-run:
+run: run-dependencies
 	npm run serve
+
+run-dependencies:
+	@docker-compose --project-name motoblog up -d
 
 clean:
 	@rm -rf node_modules
