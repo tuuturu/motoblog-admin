@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import config from '@/app.config'
 import { IconLogo } from '@tuuturu/vue/icons'
 
 export default {
@@ -23,7 +24,7 @@ export default {
 			else {
 				await this.$store.dispatch(
 					'auth/login',
-					process.env.VUE_APP_BASE_URL + '/#/trips'
+					config.VUE_APP_BASE_URL + '/#/trips'
 				)
 			}
 		}, 3000)
