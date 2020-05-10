@@ -45,7 +45,7 @@
 				accept="image/*"
 				style="display: none;"
 			/>
-			<IconCamera @click.native="$refs.openImage.click()" />
+			<IconCamera @click="$refs.openImage.click()" />
 			<IconLocation />
 		</div>
 
@@ -71,7 +71,8 @@ import {
 	NumberInput,
 	TextareaInput
 } from '@tuuturu/vue/forms'
-import { IconCamera, IconLocation } from '@tuuturu/vue/icons'
+import { IconLocation } from '@tuuturu/vue/icons'
+import IconCamera from '@/feature/posts/components/IconCamera'
 
 import LocationSelector from '@/feature/posts/components/LocationSelector'
 import ImageSelector from '@/feature/posts/components/ImageSelector'
