@@ -16,10 +16,14 @@ create-docker-compose-file:
 configure: create-npmrc-file create-dotenv-file create-docker-compose-file
 
 run: run-dependencies
-	npm run serve
+	$(eval NPM_TOKEN := $(call get-secret,d9046255-de52-40d8-8ccd-abb6008c429d))
+	@NPM_TOKEN=${NPM_TOKEN} npm run serve
 
 run-dependencies:
-	@docker-compose --project-name motoblog up -d
+	$(eval NPM_TOKEN := $(call get-secret,d9046255-de52-40d8-8ccd-abb6008c429d))
+	@NPM_TOKEN=${NPM_TOKEN} docker-compose --project-name motoblog up -d
 
 clean:
 	@rm -rf node_modules
+
+get-secret = $(or $(shell bw --session `cat ~/.bwsession` get password $(1)), $(error get-secret command failed))

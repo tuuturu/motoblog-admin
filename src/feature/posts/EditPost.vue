@@ -39,8 +39,13 @@
 		</label>
 
 		<div class="icons">
-			<IconCamera @click.native="capturePhoto" />
-			<IconImage />
+			<input
+				ref="openImage"
+				type="file"
+				accept="image/*"
+				style="display: none;"
+			/>
+			<IconCamera @click.native="$refs.openImage.click()" />
 			<IconLocation />
 		</div>
 
@@ -66,7 +71,7 @@ import {
 	NumberInput,
 	TextareaInput
 } from '@tuuturu/vue/forms'
-import { IconCamera, IconImage, IconLocation } from '@tuuturu/vue/icons'
+import { IconCamera, IconLocation } from '@tuuturu/vue/icons'
 
 import LocationSelector from '@/feature/posts/components/LocationSelector'
 import ImageSelector from '@/feature/posts/components/ImageSelector'
@@ -82,7 +87,6 @@ export default {
 		NumberInput,
 		TextareaInput,
 		IconCamera,
-		IconImage,
 		IconLocation
 	},
 	data: () => ({
@@ -160,14 +164,6 @@ export default {
 			this.post.images.push(image)
 
 			this.save()
-		},
-		capturePhoto() {
-			const query = {}
-
-			if (this.post.trip) query.trip = this.post.trip
-			if (this.post.id) query.post = this.post.id
-
-			this.$router.push({ path: '/posts/edit/capture', query })
 		}
 	}
 }
