@@ -12,9 +12,10 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 import config from '@/app.config'
 import IconCamera from '@/feature/posts/components/icons/IconCamera'
-import axios from 'axios'
 
 export default {
 	name: 'ImageInput',

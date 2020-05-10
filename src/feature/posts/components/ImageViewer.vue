@@ -1,5 +1,5 @@
 <template>
-	<div class="ImageSelector">
+	<div class="ImageViewer">
 		<span>Images</span>
 
 		<div class="image-container">
@@ -30,7 +30,7 @@ export default {
 @import '~@/assets/media.scss';
 @import '~@/assets/palette.scss';
 
-.ImageSelector {
+.ImageViewer {
 	text-align: left;
 
 	.image-container {

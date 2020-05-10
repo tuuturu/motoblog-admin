@@ -33,7 +33,7 @@
 		</label>
 
 		<div class="icons">
-			<ImageInput />
+			<ImageInput @input="post.images.push($event)" />
 			<IconLocation />
 		</div>
 
@@ -150,11 +150,6 @@ export default {
 
 			this.$store.dispatch('posts/deletePost', this.post.id)
 			this.$router.replace({ path: '/posts', query: { trip: this.post.trip } })
-		},
-		onImageAppend(image) {
-			this.post.images.push(image)
-
-			this.save()
 		}
 	}
 }
@@ -181,6 +176,10 @@ export default {
 	> :not(:last-child) {
 		margin-right: 0.5em;
 	}
+}
+
+.ImageViewer {
+	margin-bottom: 1.5em;
 }
 
 label {
