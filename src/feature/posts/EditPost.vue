@@ -23,12 +23,6 @@
 			<LocationSelector v-model="post.location" />
 		</label>
 
-		<ImageSelector
-			v-if="false"
-			@imageAppend="onImageAppend"
-			:images="post.images"
-		/>
-
 		<label>
 			<span>Content</span>
 			<TextareaInput
@@ -39,15 +33,11 @@
 		</label>
 
 		<div class="icons">
-			<input
-				ref="openImage"
-				type="file"
-				accept="image/*"
-				style="display: none;"
-			/>
-			<IconCamera @click="$refs.openImage.click()" />
+			<ImageInput />
 			<IconLocation />
 		</div>
+
+		<ImageViewer :images="post.images" />
 
 		<div class="buttons">
 			<Button secondary @click="save">Save draft</Button>
@@ -72,22 +62,22 @@ import {
 	TextareaInput
 } from '@tuuturu/vue/forms'
 import { IconLocation } from '@tuuturu/vue/icons'
-import IconCamera from '@/feature/posts/components/IconCamera'
 
 import LocationSelector from '@/feature/posts/components/LocationSelector'
-import ImageSelector from '@/feature/posts/components/ImageSelector'
+import ImageViewer from '@/feature/posts/components/ImageViewer'
+import ImageInput from '@/feature/posts/components/ImageInput'
 
 export default {
 	name: 'EditPost',
 	components: {
-		ImageSelector,
+		ImageInput,
+		ImageViewer,
 		LocationSelector,
 		Button,
 		TextInput,
 		DateInput,
 		NumberInput,
 		TextareaInput,
-		IconCamera,
 		IconLocation
 	},
 	data: () => ({

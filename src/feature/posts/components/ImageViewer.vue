@@ -3,21 +3,6 @@
 		<span>Images</span>
 
 		<div class="image-container">
-			<div
-				class="image-block add-photos-block"
-				@click="$refs.fileInput.click()"
-			>
-				<input
-					class="hide"
-					ref="fileInput"
-					type="file"
-					@change="uploadImage"
-					accept="image/jpeg,image/png"
-					multiple
-				/>
-				<IconAddPhoto />
-			</div>
-
 			<div class="image-block" v-for="image in images" :key="image.url">
 				<img alt="" :src="image.url" />
 				<label>
@@ -29,36 +14,12 @@
 </template>
 
 <script>
-import axios from 'axios'
-import IconAddPhoto from '@/feature/posts/components/IconAddPhoto'
-
 export default {
 	name: 'ImageSelector',
-	components: { IconAddPhoto },
 	props: {
 		images: {
 			type: Array,
 			default: () => []
-		}
-	},
-	methods: {
-		async uploadImage(event) {
-			const data = new FormData()
-
-			event.target.files.forEach(file => {
-				data.append('picture', file)
-			})
-
-			const url = 'http://localhost:3000/media'
-
-			const result = await axios.post(url, data, {
-				headers: { 'Content-Type': 'multipart/form-data' }
-			})
-
-			this.$emit('imageAppend', {
-				url: `http://localhost:3000/static/${result.data.id}`,
-				description: ''
-			})
 		}
 	}
 }

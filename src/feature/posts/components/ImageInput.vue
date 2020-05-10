@@ -1,0 +1,45 @@
+<template>
+	<div class="ImageInput">
+		<input
+			ref="openImage"
+			type="file"
+			accept="image/*"
+			style="display: none;"
+			@change="uploadImage"
+		/>
+		<IconCamera @click="$refs.openImage.click()" />
+	</div>
+</template>
+
+<script>
+import config from '@/app.config'
+import IconCamera from '@/feature/posts/components/icons/IconCamera'
+import axios from 'axios'
+
+export default {
+	name: 'ImageInput',
+	components: { IconCamera },
+	methods: {
+		async uploadImage(event) {
+			const data = new FormData()
+
+			event.target.files.forEach(file => data.append('picture', file))
+
+			const result = await axios.request({
+				baseURL: config.VUE_APP_POST_SERVICE_URL,
+				url: '/media',
+				method: 'POST',
+				headers: { 'Content-Type': 'multipart/form-data' },
+				data
+			})
+
+			this.$emit('input', {
+				url: `${config.VUE_APP_POST_SERVICE_URL}/static/${result.data.id}`,
+				description: ''
+			})
+		}
+	}
+}
+</script>
+
+<style lang="scss" scoped></style>

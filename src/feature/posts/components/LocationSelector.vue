@@ -10,7 +10,7 @@
 
 <script>
 import L from 'leaflet'
-import IconCrosshair from '@/feature/posts/components/IconCrosshair'
+import IconCrosshair from '@/feature/posts/components/icons/IconCrosshair'
 
 const TILE_URL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 const ATTRIBUTION =

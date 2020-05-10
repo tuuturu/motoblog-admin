@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import IconChevronDown from '@/feature/posts/components/IconChevronDown'
+import IconChevronDown from '@/feature/posts/components/icons/IconChevronDown'
 
 export default {
 	name: 'Dropdown',
