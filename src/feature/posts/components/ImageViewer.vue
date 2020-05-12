@@ -5,9 +5,6 @@
 		<div class="image-container">
 			<div class="image-block" v-for="image in images" :key="image.url">
 				<img alt="" :src="image.url" />
-				<label>
-					<textarea placeholder="caption" />
-				</label>
 			</div>
 		</div>
 	</div>
@@ -60,41 +57,6 @@ export default {
 		object-position: center;
 
 		width: 100%;
-	}
-
-	label {
-		flex-basis: 20%;
-	}
-
-	textarea {
-		width: 100%;
-		margin: 0;
-		padding: 1em;
-
-		border: 3px solid $primary-color;
-
-		resize: none;
-	}
-}
-
-.add-photos-block {
-	height: 196px;
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	&:hover {
-		* {
-			color: $primary-color-dark;
-		}
-	}
-
-	svg {
-		height: 72px;
-		width: 72px;
-
-		color: $primary-color;
 	}
 }
 
