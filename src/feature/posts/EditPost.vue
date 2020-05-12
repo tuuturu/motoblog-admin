@@ -23,14 +23,7 @@
 			<LocationSelector v-model="post.location" />
 		</label>
 
-		<label>
-			<span>Content</span>
-			<TextareaInput
-				ref="txtContent"
-				v-model="post.content"
-				placeholder="A long and detailed description about where you've been and what you've seen :)"
-			/>
-		</label>
+		<ContentInput v-model="post.content" />
 
 		<div class="icons">
 			<ImageInput @input="post.images.push($event)" />
@@ -40,7 +33,10 @@
 		<ImageViewer :images="post.images" />
 
 		<div class="buttons">
-			<Button secondary @click="save">Save draft</Button>
+			<Button secondary @click="save">
+				<span>Save</span>
+				<span v-if="post.status !== PostStatus.PUBLISHED"> draft</span>
+			</Button>
 
 			<Button @click="togglePublished">
 				<span v-if="post.status === PostStatus.PUBLISHED">Unpublish</span>
@@ -55,21 +51,18 @@
 <script>
 import { models } from '@tuuturu/motoblog-common'
 import { Button } from '@tuuturu/vue/buttons'
-import {
-	TextInput,
-	DateInput,
-	NumberInput,
-	TextareaInput
-} from '@tuuturu/vue/forms'
+import { TextInput, DateInput, NumberInput } from '@tuuturu/vue/forms'
 import { IconLocation } from '@tuuturu/vue/icons'
 
 import LocationSelector from '@/feature/posts/components/LocationSelector'
 import ImageViewer from '@/feature/posts/components/ImageViewer'
 import ImageInput from '@/feature/posts/components/ImageInput'
+import ContentInput from '@/feature/posts/components/ContentInput'
 
 export default {
 	name: 'EditPost',
 	components: {
+		ContentInput,
 		ImageInput,
 		ImageViewer,
 		LocationSelector,
@@ -77,7 +70,6 @@ export default {
 		TextInput,
 		DateInput,
 		NumberInput,
-		TextareaInput,
 		IconLocation
 	},
 	data: () => ({
@@ -100,9 +92,6 @@ export default {
 			return this.post.date.toISOString().split('T')[0]
 		}
 	},
-	mounted() {
-		this.setDynamicTextAreaSize()
-	},
 	async created() {
 		await this.$store.dispatch('posts/refreshPosts')
 
@@ -122,19 +111,6 @@ export default {
 		this.post.trip = trip_id
 	},
 	methods: {
-		setDynamicTextAreaSize() {
-			const txtContent = this.$refs.txtContent.$el
-
-			txtContent.style.height = txtContent.scrollHeight + 50 + 'px'
-			txtContent.addEventListener('input', function () {
-				this.style.height = 'auto'
-				this.style.height = this.scrollHeight + 'px'
-
-				// Scroll to bottom when resizing
-				const scrollingElement = document.scrollingElement || document.body
-				scrollingElement.scrollTop = scrollingElement.scrollHeight
-			})
-		},
 		async save() {
 			this.post = await this.$store.dispatch('posts/savePost', this.post)
 		},
@@ -165,6 +141,14 @@ export default {
 	padding: 1em;
 }
 
+.ImageViewer {
+	margin-bottom: 1.5em;
+}
+
+.ContentInput {
+	width: 100%;
+}
+
 .single-line {
 	display: flex;
 
@@ -178,10 +162,6 @@ export default {
 	> :not(:last-child) {
 		margin-right: 0.5em;
 	}
-}
-
-.ImageViewer {
-	margin-bottom: 1.5em;
 }
 
 label {
@@ -213,6 +193,7 @@ label {
 }
 
 .icons {
+	display: flex;
 	width: 100%;
 
 	margin: 3em 0;

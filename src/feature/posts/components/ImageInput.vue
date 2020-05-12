@@ -35,8 +35,8 @@ export default {
 			})
 
 			this.$emit('input', {
-				url: `${config.VUE_APP_POST_SERVICE_URL}/static/${result.data.id}`,
-				description: ''
+				id: result.data.id,
+				caption: ''
 			})
 		}
 	}

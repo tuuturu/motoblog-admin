@@ -68,7 +68,7 @@ export default {
 	methods: {
 		addNewPost() {
 			this.$router.push({
-				path: '/posts/edit',
+				path: '/posts/new',
 				query: { trip: this.$route.query.trip }
 			})
 		},

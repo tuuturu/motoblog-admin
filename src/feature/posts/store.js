@@ -76,10 +76,21 @@ const actions = {
 
 		return getters['posts']
 	},
-	async getPost({ dispatch, getters }, { id }) {
+	async getPost({ commit, dispatch, getters }, { id }) {
 		dispatch('refreshPosts')
 
-		const post = getters['post'](id)
+		let post = getters['post'](id)
+		if (!post.isComplete) {
+			const { data } = await axios.request({
+				url: `/posts/${post.id}`,
+				method: 'GET'
+			})
+
+			post = data
+			post.isComplete = true
+
+			commit('post', post)
+		}
 
 		if (post) return post
 

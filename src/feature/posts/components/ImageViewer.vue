@@ -3,20 +3,27 @@
 		<span>Images</span>
 
 		<div class="image-container">
-			<div class="image-block" v-for="image in images" :key="image.url">
-				<img alt="" :src="image.url" />
+			<div class="image-block" v-for="image in images" :key="image.id">
+				<img alt="" :src="getImageURL(image.id)" />
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import config from '@/app.config'
+
 export default {
 	name: 'ImageSelector',
 	props: {
 		images: {
 			type: Array,
 			default: () => []
+		}
+	},
+	methods: {
+		getImageURL(id) {
+			return config.VUE_APP_POST_SERVICE_URL + `/static/${id}`
 		}
 	}
 }

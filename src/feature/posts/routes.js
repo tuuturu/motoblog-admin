@@ -1,6 +1,5 @@
 import EditPost from './EditPost'
 import PostList from './PostList'
-import CapturePhoto from '@/feature/posts/CapturePhoto'
 
 export default [
 	{
@@ -9,9 +8,9 @@ export default [
 		component: PostList
 	},
 	{
-		path: '/edit/capture',
-		name: 'capturephoto',
-		component: CapturePhoto
+		path: '/new',
+		name: 'createpost',
+		component: EditPost
 	},
 	{
 		path: '/:post_id',
