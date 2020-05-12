@@ -23,6 +23,10 @@ run-dependencies:
 	$(eval NPM_TOKEN := $(call get-secret,d9046255-de52-40d8-8ccd-abb6008c429d))
 	@NPM_TOKEN=${NPM_TOKEN} docker-compose up -d
 
+serve:
+	$(eval NPM_TOKEN := $(call get-secret,d9046255-de52-40d8-8ccd-abb6008c429d))
+	@NPM_TOKEN=${NPM_TOKEN} npm run serve
+
 clean:
 	@rm -rf node_modules
 
