@@ -63,7 +63,6 @@ export default {
 		}
 	},
 	async created() {
-		await this.$store.dispatch('auth/refreshUserinfo')
 		await this.$store.dispatch('posts/refreshPosts')
 	},
 	methods: {
@@ -74,10 +73,7 @@ export default {
 			})
 		},
 		editPost(id) {
-			this.$router.push({
-				name: 'editpost',
-				query: { post: id }
-			})
+			this.$router.push({ path: `/posts/${id}` })
 		}
 	}
 }

@@ -104,8 +104,12 @@ export default {
 		this.setDynamicTextAreaSize()
 	},
 	async created() {
-		const post_id = this.$route.query.post
+		await this.$store.dispatch('posts/refreshPosts')
+
+		const post_id = this.$route.params.post_id
 		const trip_id = this.$route.query.trip
+
+		if (!post_id && !trip_id) throw new Error('No post id nor trip id found')
 
 		if (post_id) {
 			this.post = await this.$store.dispatch('posts/getPost', {
@@ -114,8 +118,6 @@ export default {
 
 			if (this.post) return
 		}
-
-		if (!trip_id) throw new Error('No post id nor trip id found')
 
 		this.post.trip = trip_id
 	},

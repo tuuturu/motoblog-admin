@@ -14,7 +14,7 @@ export default [
 		component: CapturePhoto
 	},
 	{
-		path: '/edit',
+		path: '/:post_id',
 		name: 'editpost',
 		component: EditPost
 	}
