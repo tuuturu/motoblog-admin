@@ -42,13 +42,13 @@ export default {
 
 <style lang="scss" scoped>
 .PostListItemCard {
-	background-color: #c4c4c4;
-
 	padding: 3em 1em 1em 1em;
 
-	border-radius: 2px;
-
 	text-align: left;
+	border-radius: 4px;
+
+	background-color: rgba(0, 0, 0, 0.5);
+	color: white;
 
 	h2 {
 		margin-bottom: 0.5em;

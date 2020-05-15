@@ -43,11 +43,11 @@ export default {
 <style lang="scss" scoped>
 .TripListCardItem {
 	width: 100%;
-	background-color: #c4c4c4;
-
 	padding: 3em 1em 1em 1em;
+	border-radius: 4px;
 
-	border-radius: 2px;
+	background-color: rgba(0, 0, 0, 0.5);
+	color: white;
 
 	h2 {
 		margin-bottom: 0.5em;
