@@ -27,6 +27,6 @@ serve:
 	@NPM_TOKEN=${NPM_TOKEN} npm run serve
 
 clean:
-	@rm -rf node_modules/
+	@rm -rf node_modules
 
 get-secret = $(or $(shell bw --session `cat ~/.bwsession` get password $(1)), $(error get-secret command failed))
