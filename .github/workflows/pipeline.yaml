@@ -23,15 +23,13 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
           NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm run build
-        env:
-          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+        
   bump:
     name: Bump version
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2 # Fetch code
+      - uses: actions/checkout@v1 # Fetch code
         with:
           ref: ${{ github.ref }}
       - name: "Automated Version Bump"
@@ -39,9 +37,8 @@ jobs:
         with:
           tag-prefix: ''
         env:
-          GITHUB_TOKEN: ${{ secrets.AUTOBUMP_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}      env:
           NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
 
   publish:
     name: Publish Docker image
