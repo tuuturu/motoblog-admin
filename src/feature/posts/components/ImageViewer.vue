@@ -23,7 +23,7 @@ export default {
 	},
 	methods: {
 		getImageURL(id) {
-			return config.VUE_APP_POST_SERVICE_URL + `/static/${id}`
+			return `${config.VUE_APP_BUCKET_POST_IMAGES}/${id}`
 		}
 	}
 }
