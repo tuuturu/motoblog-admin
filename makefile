@@ -1,6 +1,5 @@
 create-npmrc-file:
-	@echo 📦 Configuring npm package url for @tuuturu scope. Remember to add token
-	@echo "//npm.pkg.github.com/:_authToken=<TOKEN>" >> .npmrc
+	@echo 📦 Configuring npm package url for @tuuturu scope
 	@echo "@tuuturu:registry=http://npm.pkg.github.com/tuuturu" >> .npmrc
 create-dotenv-file:
 	@echo 📖 Creating .env file
@@ -21,7 +20,7 @@ run: run-dependencies
 
 run-dependencies:
 	$(eval NPM_TOKEN := $(call get-secret,d9046255-de52-40d8-8ccd-abb6008c429d))
-	@NPM_TOKEN=${NPM_TOKEN} docker-compose up -d
+	@NPM_TOKEN=${NPM_TOKEN} COMPOSE_PROJECT_NAME=motoblog docker-compose up -d
 
 serve:
 	$(eval NPM_TOKEN := $(call get-secret,d9046255-de52-40d8-8ccd-abb6008c429d))
