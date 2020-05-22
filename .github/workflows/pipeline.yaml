@@ -38,6 +38,9 @@ jobs:
         uses: "phips28/gh-action-bump-version@master"
         with:
           tag-prefix: ''
+        env:
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
 
   publish:
     name: Publish Docker image
