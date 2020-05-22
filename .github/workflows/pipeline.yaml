@@ -54,6 +54,8 @@ jobs:
 
       - name: Publish Docker image
         uses: elgohr/Publish-Docker-Github-Action@2.14
+        env:
+          NPM_TOKEN=${{ secrets.GITHUB_TOKEN }}
         with:
           # The name of the image you would like to push
           name: tuuturu/motoblog-admin/admin
@@ -61,4 +63,4 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
           tags: "latest,${{ env.RELEASE_VERSION }}"
-          buildargs: NPM_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          buildargs: NPM_TOKEN
