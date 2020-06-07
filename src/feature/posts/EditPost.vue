@@ -4,24 +4,6 @@
 			<span>Title</span>
 			<TextInput v-model="post.title" placeholder="A Nice Title" />
 		</label>
-		<div class="single-line" v-if="false">
-			<label>
-				<span>Date</span>
-				<DateInput v-model="post.date" />
-			</label>
-			<label>
-				<span>Distance (km)</span>
-				<NumberInput
-					:value="parseInt(post.distance)"
-					@input="post.distance = $event"
-				/>
-			</label>
-		</div>
-
-		<label v-if="false">
-			<span>Location</span>
-			<LocationSelector v-model="post.location" />
-		</label>
 
 		<ContentInput v-model="post.content" />
 
@@ -29,6 +11,11 @@
 			<ImageInput @input="post.images.push($event)" />
 			<IconLocation />
 		</div>
+
+		<label v-if="false">
+			<span>Location</span>
+			<LocationSelector v-model="post.location" />
+		</label>
 
 		<ImageViewer :images="post.images" />
 
@@ -51,7 +38,7 @@
 <script>
 import { models } from '@tuuturu/motoblog-common'
 import { Button } from '@tuuturu/vue/buttons'
-import { TextInput, DateInput, NumberInput } from '@tuuturu/vue/forms'
+import { TextInput } from '@tuuturu/vue/forms'
 import { IconLocation } from '@tuuturu/vue/icons'
 
 import LocationSelector from '@/feature/posts/components/LocationSelector'
@@ -68,8 +55,6 @@ export default {
 		LocationSelector,
 		Button,
 		TextInput,
-		DateInput,
-		NumberInput,
 		IconLocation
 	},
 	data: () => ({
@@ -147,21 +132,6 @@ export default {
 
 .ContentInput {
 	width: 100%;
-}
-
-.single-line {
-	display: flex;
-
-	> * {
-		width: 100%;
-	}
-
-	> :not(:first-child) {
-		margin-left: 0.5em;
-	}
-	> :not(:last-child) {
-		margin-right: 0.5em;
-	}
 }
 
 label {
