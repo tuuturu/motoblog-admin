@@ -16,11 +16,24 @@ const TILE_URL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 const ATTRIBUTION =
 	'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
 
+function getLocation() {
+	return new Promise((resolve, reject) => {
+		if (!navigator.geolocation) reject()
+
+		navigator.geolocation.getCurrentPosition(position => {
+			resolve([position.coords.latitude, position.coords.longitude])
+		}, reject)
+	})
+}
+
 export default {
 	name: 'LocationSelector',
 	components: { IconCrosshair },
 	props: {
-		value: String
+		value: {
+			type: String,
+			default: () => 'geo:41.8875,12.4818'
+		}
 	},
 	data: () => ({
 		map: null
@@ -45,24 +58,13 @@ export default {
 		})
 
 		try {
-			const location = await this.getLocation()
+			const location = await getLocation()
 
 			this.map.setView(location, 14)
 		} catch (error) {
 			if (error.code === 1) {
 				// user denied geo location request
 			}
-		}
-	},
-	methods: {
-		getLocation() {
-			return new Promise((resolve, reject) => {
-				if (!navigator.geolocation) reject()
-
-				navigator.geolocation.getCurrentPosition(position => {
-					resolve([position.coords.latitude, position.coords.longitude])
-				}, reject)
-			})
 		}
 	}
 }
