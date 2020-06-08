@@ -23,7 +23,9 @@ export const mutations = {
 }
 
 export const actions = {
-	async refreshUserinfo({ commit }) {
+	async refreshUserinfo({ commit, getters }) {
+		if (getters.isAuthenticated) return
+
 		const url = `${config.VUE_APP_GATEKEEPER_URL}/userinfo`
 
 		try {
