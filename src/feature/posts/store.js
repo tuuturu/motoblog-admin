@@ -77,7 +77,7 @@ const actions = {
 		return getters['posts']
 	},
 	async getPost({ commit, dispatch, getters }, { id }) {
-		dispatch('refreshPosts')
+		await dispatch('refreshPosts')
 
 		let post = getters['post'](id)
 		if (!post.isComplete) {
@@ -102,6 +102,8 @@ const actions = {
 			method: 'post',
 			data: post
 		}
+
+		if (post.id && post.id === -1) delete post.id
 
 		if (post.id) {
 			options.url += '/' + post.id

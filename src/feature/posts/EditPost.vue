@@ -7,31 +7,36 @@
 
 		<ContentInput v-model="post.content" />
 
-		<div class="icons">
-			<ImageInput @input="post.images.push($event)" />
-			<IconLocation />
-		</div>
-
-		<label v-if="false">
+		<label v-if="post.points.length > 0">
 			<span>Location</span>
-			<LocationSelector v-model="post.location" />
+			<LocationViewer :points="post.points" />
 		</label>
 
-		<ImageViewer :images="post.images" />
+		<label v-if="post.images.length > 0">
+			<span>Images</span>
+			<ImageViewer :images="post.images" />
+		</label>
+
+		<div class="icons">
+			<ImageInput @input="post.images.push($event)" />
+			<IconLocation @click.capture.native="show_location_modal = true" />
+		</div>
 
 		<div class="buttons">
-			<Button secondary @click="save">
+			<Button @click="save">
 				<span>Save</span>
 				<span v-if="post.status !== PostStatus.PUBLISHED"> draft</span>
 			</Button>
 
-			<Button @click="togglePublished">
+			<Button secondary @click="togglePublished">
 				<span v-if="post.status === PostStatus.PUBLISHED">Unpublish</span>
 				<span v-else>Publish</span>
 			</Button>
 
-			<Button danger v-if="post.id" @click="deletePost">Delete</Button>
+			<Button danger v-if="post.id !== -1" @click="deletePost">Delete</Button>
 		</div>
+
+		<LocationModal v-if="show_location_modal" @input="onAcquirePoints" />
 	</div>
 </template>
 
@@ -41,10 +46,11 @@ import { Button } from '@tuuturu/vue/buttons'
 import { TextInput } from '@tuuturu/vue/forms'
 import { IconLocation } from '@tuuturu/vue/icons'
 
-import LocationSelector from '@/feature/posts/components/LocationSelector'
 import ImageViewer from '@/feature/posts/components/ImageViewer'
 import ImageInput from '@/feature/posts/components/ImageInput'
 import ContentInput from '@/feature/posts/components/ContentInput'
+import LocationModal from '@/feature/posts/components/LocationModal'
+import LocationViewer from '@/feature/posts/components/LocationViewer'
 
 export default {
 	name: 'EditPost',
@@ -52,23 +58,16 @@ export default {
 		ContentInput,
 		ImageInput,
 		ImageViewer,
-		LocationSelector,
+		LocationModal,
+		LocationViewer,
 		Button,
 		TextInput,
 		IconLocation
 	},
 	data: () => ({
 		PostStatus: models.PostStatus,
-		post: new models.Post({
-			trip: undefined,
-			status: models.PostStatus.DRAFT,
-			date: new Date(Date.now()),
-			title: '',
-			content: '',
-			distance: 0,
-			location: 'geo:53.252,10.02',
-			images: []
-		})
+		post: new models.Post({}),
+		show_location_modal: false
 	}),
 	computed: {
 		date() {
@@ -78,22 +77,22 @@ export default {
 		}
 	},
 	async created() {
-		await this.$store.dispatch('posts/refreshPosts')
-
 		const post_id = this.$route.params.post_id
 		const trip_id = this.$route.query.trip
 
 		if (!post_id && !trip_id) throw new Error('No post id nor trip id found')
 
-		if (post_id) {
-			this.post = await this.$store.dispatch('posts/getPost', {
-				id: post_id
-			})
+		if (!post_id) {
+			this.post.trip = trip_id
 
-			if (this.post) return
+			return
 		}
 
-		this.post.trip = trip_id
+		const post = await this.$store.dispatch('posts/getPost', {
+			id: post_id
+		})
+
+		if (post) this.$set(this, 'post', post)
 	},
 	methods: {
 		async save() {
@@ -113,13 +112,17 @@ export default {
 
 			this.$store.dispatch('posts/deletePost', this.post.id)
 			this.$router.replace({ path: '/posts', query: { trip: this.post.trip } })
+		},
+		onAcquirePoints(points) {
+			this.show_location_modal = false
+			this.post.points.push(...points)
 		}
 	}
 }
 </script>
 
 <style lang="scss" scoped>
-@import 'node_modules/@tuuturu/styling/style';
+@import '~@tuuturu/styling/style';
 @import '~@/assets/palette.scss';
 
 .EditPost {
@@ -156,10 +159,6 @@ label {
 
 		overflow: hidden;
 	}
-
-	.LocationSelector {
-		width: 100%;
-	}
 }
 
 .icons {
@@ -188,5 +187,10 @@ label {
 	:last-child {
 		margin-bottom: 1.5em;
 	}
+}
+
+.LocationViewer {
+	width: 100%;
+	height: 190px;
 }
 </style>

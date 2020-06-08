@@ -1,7 +1,5 @@
 <template>
 	<div class="ImageViewer">
-		<span>Images</span>
-
 		<div class="image-container">
 			<div class="image-block" v-for="image in images" :key="image.id">
 				<img alt="" :src="getImageURL(image.id)" />
