@@ -14,7 +14,7 @@
 
 		<label v-if="post.images.length > 0">
 			<span>Images</span>
-			<ImageViewer :images="post.images" />
+			<ImageViewer :images="post.images" @deleteImageRequest="deleteImage" />
 		</label>
 
 		<div class="icons">
@@ -22,19 +22,13 @@
 			<IconLocation @click.capture.native="show_location_modal = true" />
 		</div>
 
-		<div class="buttons">
-			<Button @click="save">
-				<span>Save</span>
-				<span v-if="post.status !== PostStatus.PUBLISHED"> draft</span>
-			</Button>
-
-			<Button secondary @click="togglePublished">
-				<span v-if="post.status === PostStatus.PUBLISHED">Unpublish</span>
-				<span v-else>Publish</span>
-			</Button>
-
-			<Button danger v-if="post.id !== -1" @click="deletePost">Delete</Button>
-		</div>
+		<EditPostButtons
+			:status="post.status"
+			:is-new="post.id < 0"
+			@save="save"
+			@delete="deletePost"
+			@togglePublished="togglePublished"
+		/>
 
 		<LocationModal v-if="show_location_modal" @input="onAcquirePoints" />
 	</div>
@@ -42,7 +36,6 @@
 
 <script>
 import { models } from '@tuuturu/motoblog-common'
-import { Button } from '@tuuturu/vue/buttons'
 import { TextInput } from '@tuuturu/vue/forms'
 import { IconLocation } from '@tuuturu/vue/icons'
 
@@ -51,16 +44,17 @@ import ImageInput from '@/feature/posts/components/ImageInput'
 import ContentInput from '@/feature/posts/components/ContentInput'
 import LocationModal from '@/feature/posts/components/LocationModal'
 import LocationViewer from '@/feature/posts/components/LocationViewer'
+import EditPostButtons from '@/feature/posts/components/EditPostButtons'
 
 export default {
 	name: 'EditPost',
 	components: {
+		EditPostButtons,
 		ContentInput,
 		ImageInput,
 		ImageViewer,
 		LocationModal,
 		LocationViewer,
-		Button,
 		TextInput,
 		IconLocation
 	},
@@ -112,6 +106,10 @@ export default {
 
 			this.$store.dispatch('posts/deletePost', this.post.id)
 			this.$router.replace({ path: '/posts', query: { trip: this.post.trip } })
+		},
+		deleteImage(id) {
+			const index = this.post.images.findIndex(img => img.id === id)
+			this.post.images.splice(index, 1)
 		},
 		onAcquirePoints(points) {
 			this.show_location_modal = false
@@ -171,21 +169,6 @@ label {
 
 	:not(:last-child) {
 		margin-right: 1em;
-	}
-}
-
-.buttons {
-	* {
-		width: 100%;
-
-		transition: all 0.2s ease;
-	}
-
-	:not(:last-child) {
-		margin-bottom: 1em;
-	}
-	:last-child {
-		margin-bottom: 1.5em;
 	}
 }
 
