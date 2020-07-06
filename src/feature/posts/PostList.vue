@@ -1,7 +1,5 @@
 <template>
 	<div class="PostList">
-		<IllustrationSunrise class="background" />
-
 		<Button class="button-new" @click="addNewPost">
 			<span v-if="relevantPosts.length > 0">New Post</span>
 			<span v-else>Add First Post</span>
@@ -39,11 +37,10 @@ import { Button } from '@tuuturu/vue/buttons'
 
 import PostListItemCard from '@/feature/posts/components/PostListItemCard'
 import { mapState } from 'vuex'
-import IllustrationSunrise from '@/components/IllustrationSunrise'
 
 export default {
 	name: 'PostList',
-	components: { PostListItemCard, Button, IllustrationSunrise },
+	components: { PostListItemCard, Button },
 	computed: {
 		...mapState('posts', ['posts']),
 		relevantPosts() {
@@ -83,18 +80,24 @@ export default {
 @import 'node_modules/@tuuturu/styling/style';
 @import '~@/assets/palette.scss';
 
-.background {
-	width: 105%;
-	height: 105%;
+.IllustrationSunrise {
+	position: absolute;
 
-	position: fixed;
-	left: -5px;
-	top: -5px;
+	width: 432px;
+
+	left: 0;
+	top: 0;
 
 	z-index: -1000;
 }
 
 .PostList {
+	background: url('/img/IllustrationSunrise.svg');
+	background-repeat: no-repeat;
+	background-size: cover;
+
+	height: 100%;
+
 	display: flex;
 	flex-direction: column;
 

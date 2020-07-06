@@ -3,7 +3,6 @@
 		class="IllustrationSunrise"
 		width="375"
 		height="667"
-		viewBox="0 0 375 667"
 		fill="none"
 		xmlns="http://www.w3.org/2000/svg"
 	>
