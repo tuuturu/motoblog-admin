@@ -52,6 +52,8 @@ export default {
 	h2 {
 		margin-bottom: 0.5em;
 	}
+
+	cursor: pointer;
 }
 
 .Button {
